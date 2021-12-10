@@ -113,10 +113,12 @@ a {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   z-index: var(--z-fixed);
+  overflow: auto;
 }
 
 .nav {
   height: 100%;
+  min-height: 655px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

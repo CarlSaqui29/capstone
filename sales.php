@@ -27,6 +27,7 @@
           <a href="customers.php" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Customers</span> </a>
           <a href="salesReport.php" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Sales Report</span> </a>
           <a href="stocktaking.php" class="nav_link"><i class='bx bx-bell nav_icon'></i> <span class="nav_name">Stocks Taking</span> </a>
+          <a href="orders.php" class="nav_link"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
         </div>
       </div>
       <a href="login.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
@@ -77,43 +78,42 @@
             while ($row = mysqli_fetch_array($result)) {
             ?>
 
-            <?php
-                if ($row['quantity'] <= 20){
-                  $getname = $row['name'];
-                  $prompt = 'the system detect '." "."'".$row['name']."'"." "."meet the critical stock level"; 
-                  $quant = $row['quantity'];
-                  $_SESSION['name'] = $prompt;
-                  $_SESSION['quants'] = $quant;
-                  $computation = 100 - (int)$quant;
-                  $_SESSION['compute'] = $computation;
-                  $results = (int)$computation + (int)$quant;
-                  $_SESSION['result'] = $results;
-                  
-                  include 'sendemail.php';
-                  ?>
-                    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-                    <script>
-                        $(document).ready(function(){
-                            Swal.fire({
-                            icon: 'warning',
-                            title: 'The system detect that one of the product meet the critical stock.',
-                            text: 'Check your email to see the details',
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Okay'
-                            })
-                        })
-                    </script>
-                  <?php
-             
-                  echo"<br>";
-                }
-                else{
-                  echo('No detection');
-                } 
-            ?>
-            
-            
+              <?php
+              if ($row['quantity'] <= 20) {
+                $getname = $row['name'];
+                $prompt = 'the system detect ' . " " . "'" . $row['name'] . "'" . " " . "meet the critical stock level";
+                $quant = $row['quantity'];
+                $_SESSION['name'] = $prompt;
+                $_SESSION['quants'] = $quant;
+                $computation = 100 - (int)$quant;
+                $_SESSION['compute'] = $computation;
+                $results = (int)$computation + (int)$quant;
+                $_SESSION['result'] = $results;
+
+                include 'sendemail.php';
+              ?>
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                <script>
+                  $(document).ready(function() {
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'The system detect that one of the product meet the critical stock.',
+                      text: 'Check your email to see the details',
+                      confirmButtonColor: '#3085d6',
+                      confirmButtonText: 'Okay'
+                    })
+                  })
+                </script>
+              <?php
+
+                echo "<br>";
+              } else {
+                echo ('No detection');
+              }
+              ?>
+
+
               <tr>
                 <td><a href="#" class="pop"><img src="uploads/<?= $row['img_url'] ?>" alt=""></a></td>
                 <td><?php echo $row['category']; ?></td>

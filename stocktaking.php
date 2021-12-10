@@ -27,6 +27,7 @@
      <a href="customers.php" class="nav_link"><i class='bx bx-user nav_icon'></i> <span class="nav_name">Customers</span> </a>
      <a href="salesReport.php" class="nav_link"><i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Sales Report</span> </a>
      <a href="stocktaking.php" class="nav_link active"><i class='bx bx-bell nav_icon'></i> <span class="nav_name">Stocks Taking</span> </a>
+     <a href="orders.php" class="nav_link"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
     </div>
    </div>
    <a href="login.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
@@ -50,7 +51,7 @@
   <div class="mt-5">
    <div class="row">
     <div class="col-lg-7">
-     <h4 class="mt-1 mb-1">Sales Products</h4>
+     <h4 class="mt-1 mb-1">Stocks Taking Table</h4>
     </div>
     <div class="col-lg-5" style="display: inline-flex;">
      <input type="text" class="form-control" id="searchSales" onkeyup="search(0)" placeholder="Search product...">
