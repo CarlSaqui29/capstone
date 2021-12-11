@@ -81,23 +81,31 @@
       </tr>
      </thead>
      <tbody>
+     <?php
+      require('config.php');
+      $query = "SELECT * FROM orders";
+      $result = mysqli_query($db_link, $query);
+      while ($row = mysqli_fetch_array($result)) {
+      ?>
       <tr>
-       <td>Carl</td>
-       <td>John Wick</td>
-       <td>None</td>
-       <td>None</td>
-       <td>09876543210</td>
-       <td>09876543210</td>
-       <td>Imus, Cavite</td>
-       <td>BDO</td>
-       <td>Cavite</td>
-       <td>Imus</td>
-       <td>Pogi I</td>
-       <td>None</td>
-       <td>None</td>
-       <td>Gcash</td>
-       <td>None</td>
+       <td><?php echo $row['name']; ?></td>
+       <td><?php echo $row['fbname']; ?></td>
+       <td><?php echo $row['concern']; ?></td>
+       <td><?php echo $row['question']; ?></td>
+       <td><?php echo $row['phone']; ?></td>
+       <td><?php echo $row['extraphone']; ?></td>
+       <td><?php echo $row['address']; ?></td>
+       <td><?php echo $row['landmark']; ?></td>
+       <td><?php echo $row['province']; ?></td>
+       <td><?php echo $row['city']; ?></td>
+       <td><?php echo $row['barangay']; ?></td>
+       <td><?php echo $row['bottles']; ?></td>
+       <td><?php echo $row['receivecall']; ?></td>
+       <td><?php echo $row['mop']; ?></td>
+       <td><?php echo $row['note']; ?></td>
       </tr>
+      <?php
+      } ?>
      </tbody>
     </table>
    </div>

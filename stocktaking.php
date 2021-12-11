@@ -74,7 +74,7 @@
      <tbody>
       <?php
       require('config.php');
-      $query = "SELECT * FROM products";
+      $query = "SELECT * FROM products WHERE quantity <=20 ";
       $result = mysqli_query($db_link, $query);
       while ($row = mysqli_fetch_array($result)) {
       ?>
@@ -97,7 +97,7 @@
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-           <form action="" method="POST">
+           <form action="sendemail_supplier.php" method="POST">
             <div class="row">
              <div class="col-md-12">
               <p><b>Date:</b> <?php echo $date->format('Y/m/d'); ?></p>
@@ -110,19 +110,22 @@
              </div>
              <div class="col-md-12">
               <p><b>Product Name:</b> <?php echo $row['name']; ?></p>
-              <input type="hidden" name="pName" value="<?php echo $row['name']; ?>">
+              <input type="hidden" name="pName" id="Name" value="<?php echo $row['name']; ?>">
              </div>
              <div class="col-md-12">
               <p><b>Retail:</b> Php <?php echo $row['retail']; ?></p>
               <input type="hidden" name="retail" value="<?php echo $row['retail']; ?>">
              </div>
+             <div class="col-md-12">
+              <input type="hidden" name="stocks" value="<?php echo $row['quantity']; ?>">
+             </div>
              <div class="input-group">
               <div class="input-group-text">Qty. to be ordered</div>
-              <input type="number" min="1" name="qtytobeordered" value="<?php echo $row['quantity']; ?>" class="form-control" id="qtytobeordered<?php echo $row['id']; ?>" required>
+              <input type="number" min="1" name="qtytobeordered" value="" class="form-control" id="qtytobeordered" required>
              </div>
              <p class="mt-3"><b>Attention:</b> Once you confirm the order the product will be automatically ordered to its supplier with the quantity that you specify above.</p>
              <div class="col-md-12 mt-4 mb-2" style="text-align: right;">
-              <button type="submit" name="submitSupplierForm" class="btn btn-primary">Confirm Order</button>
+              <button name="submitSupplierForm" id="request" class="btn btn-primary">Send Request</button>
               <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
              </div>
             </div>
