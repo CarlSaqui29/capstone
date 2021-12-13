@@ -15,7 +15,7 @@ if (isset($_POST['submitSupplierForm'])) {
 
     $mail = new PHPMailer;
 
-    $email = "vhoenix117@gmail.com";
+    $email = "sample@gmail.com";
     $name = "Request for Re-stock";
 
     //SMTP Settings
@@ -24,7 +24,7 @@ if (isset($_POST['submitSupplierForm'])) {
     $mail->IsSMTP();
     $mail->Host = "smtp.gmail.com";
     $mail->SMTPAuth = true;
-    $mail->Username = "ajnarag25@gmail.com";
+    $mail->Username = "sample@gmail.com";
     $mail->Password = "";
     $mail->Port = 587; //465 for ssl and 587 for tls
     $mail->SMTPSecure = "tls";
@@ -32,7 +32,7 @@ if (isset($_POST['submitSupplierForm'])) {
     //Email Settings
     $mail->isHTML(true);
     $mail->setFrom($email, $name);
-    $mail->addAddress(address:'vhoenix117@gmail.com');
+    $mail->addAddress(address:'sample@gmail.com');
     $mail->Subject = "Request";
     $mail->Body = 'We would like to request for restock for our product'." ".$product."."." ".
     "The total stock that we have now is"." ".$stock."."." "."We are requesting for a total of"." ".$quants." ". 
@@ -45,8 +45,6 @@ if (isset($_POST['submitSupplierForm'])) {
         #echo('Error sending the email');
 
 ?>
-
-
 <script>
     window.location.href = "stocktaking.php";
 </script>

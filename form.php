@@ -42,7 +42,7 @@
                             <label for="number">Phone Number</label>
                             <input id = "phoneno" type="text" class="form-control" name="number" placeholder="Enter Phone Number" required>
                             <label for="number">Extra Phone Number</label>
-                            <input id = "extraphoneno" type="text" class="form-control" name="extranumber" placeholder="Enter Extra Phone Number" required>
+                            <input id = "extraphoneno" type="text" class="form-control" name="extranumber" placeholder="Enter Extra Phone Number">
                         </div>
                         <br>
                         <div class="form-group col">
@@ -93,12 +93,21 @@
                         <br>
                         <div class="form-group col">
                             <label for="">MODE OF PAYMENT</label>
-                            <br>
+                            <br><br>
                             <input type ="radio" name = "mop" value="CASH ON DELIVERY"> CASH ON DELIVERY
-                            <br>
+                            <br><br>
                             <input type ="radio" name = "mop" value="GCASH (09656526461)"> GCASH (09656526461)
                             <br>
+                            <label>*Please take a screenshot for proof of payment.*</label>
+                            <br>
+                            <input type="file" name="payment" id="gcash">
+                            <br><br>
                             <input type ="radio" name = "mop" value="BPI (5056-614-747)"> BPI (5056-614-747)
+                            <br>
+                            <label>*Please take a screenshot for proof of payment.*</label>
+                            <br>
+                            <input type="file" name="payment" id="bank">
+
                         
                         </div>
                         <br>
@@ -190,7 +199,10 @@
                 receive = $("input[name='receivecall']:checked").val();
                 mop = $("input[name='mop']:checked").val();
                 note = $('#note').val()
-             
+                
+                file1 = $('input[id=gcash]').val()
+                file2 = $('input[id=bank]').val()
+
                 console.log(name);
                 console.log(fbname);
                 console.log(concern);
@@ -206,7 +218,9 @@
                 console.log(receive);
                 console.log(mop);
                 console.log(note);
-               
+                console.log(file1);
+                console.log(file2);
+
                document.getElementById('name').innerHTML = "Name:" + " "+ name;
                document.getElementById('fbname').innerHTML = "Fbname:" + " "+ fbname;
                document.getElementById('concern').innerHTML = "Concerns:" + " "+ concern;
@@ -222,6 +236,12 @@
                document.getElementById('receive').innerHTML = "Receive:" + " "+ receive;
                document.getElementById('mop').innerHTML = "Mode of Payment:" + " "+ mop;
                document.getElementById('notes').innerHTML = "Note:" + " "+ note;
+
+               if (mop == "GCASH (09656526461)" && file1 == ""){
+                   alert('Please upload a file for proof of payment in gcash!');
+               }else if (mop == "BPI (5056-614-747)" && file2 == ""){
+                   alert('Please upload a file for proof of payment in BPI!');
+               }
             })
 
 

@@ -66,9 +66,10 @@
        <th scope="col">Category</th>
        <th scope="col">Name</th>
        <th scope="col">Price</th>
-       <th scope="col">Qty. to be ordered</th>
+       <th scope="col">Qty. left</th>
        <th scope="col">Supplier</th>
        <th scope="col">Pick Order</th>
+       <th scope="col">Add Stock</th>
       </tr>
      </thead>
      <tbody>
@@ -85,7 +86,8 @@
         <td>Php <?php echo $row['retail']; ?></td>
         <td><?php echo $row['quantity']; ?> pcs.</td>
         <td><?php echo $row['supplier']; ?></td>
-        <td><button type="button" data-bs-toggle="modal" data-bs-target="#salesModal<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Confirm Order</button></td>
+        <td><button type="button" data-bs-toggle="modal" data-bs-target="#salesModal<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Request Order</button></td>
+        <td><button class="btn btn-sm btn-primary">Confirm Order</button></td>
        </tr>
 
        <!--Form Modal -->
@@ -170,9 +172,9 @@
 
 
 
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
- <script src="js/app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

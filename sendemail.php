@@ -7,7 +7,7 @@
 
     $mail = new PHPMailer;
 
-    $email = "vhoenix117@gmail.com";
+    $email = "sample@gmail.com";
     $name = "Critical Stock Meet";
 
     //SMTP Settings
@@ -16,7 +16,7 @@
     $mail->IsSMTP();
     $mail->Host = "smtp.gmail.com";
     $mail->SMTPAuth = true;
-    $mail->Username = "ajnarag25@gmail.com";
+    $mail->Username = "sample@gmail.com";
     $mail->Password = "";
     $mail->Port = 587; //465 for ssl and 587 for tls
     $mail->SMTPSecure = "tls";
@@ -24,7 +24,7 @@
     //Email Settings
     $mail->isHTML(true);
     $mail->setFrom($email, $name);
-    $mail->addAddress(address:'vhoenix117@gmail.com');
+    $mail->addAddress(address:'sample@gmail.com');
     $mail->Subject = "Alert";
     $mail->Body = 'We would like to inform you that '.$_SESSION['name']." "."the total quantity now is"." ".$_SESSION['quants']."."." ".
     "Please make sure to add more stocks or request immediately in your supplier."." "."Thank you have nice day";
@@ -37,4 +37,3 @@
 
 
 ?>
-
