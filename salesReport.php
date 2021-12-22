@@ -9,6 +9,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <title>Analytics Report</title>
+  <style>
+    /* #myChart2 {
+      display: none !important;
+    } */
+  </style>
 </head>
 
 <body id="body-pd" class="bg-light">
@@ -45,17 +50,21 @@
         <span id="LiveTime" class="badge bg-warning text-dark" style="font-size: 20px;"></span>
       </div>
     </div>
-    <?php
-    // require('config.php');
-    // $queryToProducts = "SELECT * FROM products";
-    // $result = mysqli_query($db_link, $query);
-
-    ?>
+    <!-- see data.php -->
 
     <div class="container mt-5" style="overflow-x: auto;">
       <div style="width: 100%; min-width: 800px;">
         <canvas id="myChart"></canvas>
+        <canvas id="myChart1" style="display: none;"></canvas>
+        <canvas id="myChart2" style="display: none;"></canvas>
       </div>
+    </div>
+
+
+    <div class="container text-center mt-5">
+      <button class="btn btn-primary mx-1" onclick="display()">Monthly</button>
+      <button class="btn btn-primary mx-1" onclick="display0()">Weekly</button>
+      <button class="btn btn-primary mx-1" onclick="display1()">Daily</button>
     </div>
 
   </div>
@@ -65,38 +74,180 @@
   <script src="js/app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    const d = new Date();
-    let month = months[d.getMonth()]; //get the current mont by index
-    let labels = []; // months for graph
-    labels.push(name)
-    const data = {
-      labels: labels,
-      datasets: [{
-          label: 'My First dataset',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [10],
-        },
-        {
-          label: 'My 2nd dataset',
-          backgroundColor: 'rgb(0, 0, 132)',
-          borderColor: 'rgb(0, 0, 132)',
-          data: [101],
-        }
-      ]
-    };
-    const config = {
-      type: 'line',
-      data: data,
-      options: {}
-    };
-    // === include 'setup' then 'config' above ===
+    function display() {
+      $("#myChart").css("display", "block");
+      $("#myChart1").css("display", "none");
+      $("#myChart2").css("display", "none");
+    }
 
-    const myChart = new Chart(
-      document.getElementById('myChart'),
-      config
-    );
+    function display0() {
+      $("#myChart1").css("display", "block");
+      $("#myChart").css("display", "none");
+      $("#myChart2").css("display", "none");
+    }
+
+    function display1() {
+      $("#myChart").css("display", "none");
+      $("#myChart1").css("display", "none");
+      $("#myChart2").css("display", "block");
+    }
+    $(document).ready(function() {
+      $.ajax({
+        url: "http://localhost/Projects/capstone-main/data.php",
+        type: "GET",
+        success: function(datas) {
+          myObject = JSON.parse(datas);
+          let nameOfProduct = [];
+          let jan = [];
+          let feb = [];
+          let mar = [];
+          let apr = [];
+          let may = [];
+          let jun = [];
+          let jul = [];
+          let aug = [];
+          let sep = [];
+          let oct = [];
+          let nov = [];
+          let dec = [];
+
+          for (var i in myObject) {
+            nameOfProduct.push(myObject[i].nameOfProduct);
+            jan.push(parseInt(myObject[i].january));
+            feb.push(parseInt(myObject[i].february));
+            mar.push(parseInt(myObject[i].march));
+            apr.push(parseInt(myObject[i].april));
+            may.push(parseInt(myObject[i].may));
+            jun.push(parseInt(myObject[i].june));
+            jul.push(parseInt(myObject[i].july));
+            aug.push(parseInt(myObject[i].august));
+            sep.push(parseInt(myObject[i].september));
+            oct.push(parseInt(myObject[i].october));
+            nov.push(parseInt(myObject[i].november));
+            dec.push(parseInt(myObject[i].december));
+          }
+          let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+          colors = ['rgb(255, 99, 132)', 'rgb(0, 0, 132)', 'rgb(24, 196, 157)', 'rgb(29, 24, 196)', 'rgb(196, 24, 58)', 'rgb(30, 4, 9)', 'rgb(104, 240, 27)', 'rgb(240, 224, 27)']
+          dataset = [];
+          for (let i = 0; i < nameOfProduct.length; i++) {
+            dataset.push({
+              label: nameOfProduct[i],
+              backgroundColor: colors[i],
+              borderColor: colors[i],
+              data: [jan[i], feb[i], mar[i], apr[i], may[i], jun[i], jul[i], aug[i], sep[i], oct[i], nov[i], dec[i]]
+            })
+          }
+          const data = {
+            labels: months,
+            datasets: dataset
+          }
+          var ctx = $("#myChart");
+          var LineGraph = new Chart(ctx, {
+            type: 'line',
+            data: data
+          });
+        },
+        error: function(data) {
+          console.log('error getting data in salesreport table.')
+        }
+      });
+    });
+    $(document).ready(function() {
+      $.ajax({
+        url: "http://localhost/Projects/capstone-main/data2.php",
+        type: "GET",
+        success: function(datas) {
+          myObject = JSON.parse(datas);
+          let nameOfProduct = [];
+          let mon = [];
+          let tue = [];
+          let wed = [];
+          let thu = [];
+          let fri = [];
+          let sat = [];
+          let sun = [];
+
+          for (var i in myObject) {
+            nameOfProduct.push(myObject[i].nameOfProduct);
+            mon.push(parseInt(myObject[i].monday));
+            tue.push(parseInt(myObject[i].tuesday));
+            wed.push(parseInt(myObject[i].wednesday));
+            thu.push(parseInt(myObject[i].thursday));
+            fri.push(parseInt(myObject[i].friday));
+            sat.push(parseInt(myObject[i].saturday));
+            sun.push(parseInt(myObject[i].sunday));
+          }
+          let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+          colors = ['rgb(255, 99, 132)', 'rgb(0, 0, 132)', 'rgb(24, 196, 157)', 'rgb(29, 24, 196)', 'rgb(196, 24, 58)', 'rgb(30, 4, 9)', 'rgb(104, 240, 27)', 'rgb(240, 224, 27)']
+          dataset = [];
+          for (let i = 0; i < nameOfProduct.length; i++) {
+            dataset.push({
+              label: nameOfProduct[i],
+              backgroundColor: colors[i],
+              borderColor: colors[i],
+              data: [mon[i], tue[i], wed[i], thu[i], fri[i], sat[i], sun[i]]
+            })
+          }
+          const data = {
+            labels: days,
+            datasets: dataset
+          }
+          var ctx = $("#myChart2");
+          var LineGraph = new Chart(ctx, {
+            type: 'line',
+            data: data
+          });
+        },
+        error: function(data) {
+          console.log('error getting data in salesreport table.')
+        }
+      });
+    });
+    $(document).ready(function() {
+      $.ajax({
+        url: "http://localhost/Projects/capstone-main/data3.php",
+        type: "GET",
+        success: function(datas) {
+          myObject = JSON.parse(datas);
+          let nameOfProduct = [];
+          let week1 = [];
+          let week2 = [];
+          let week3 = [];
+          let week4 = [];
+
+          for (var i in myObject) {
+            nameOfProduct.push(myObject[i].nameOfProduct);
+            week1.push(parseInt(myObject[i].week1));
+            week2.push(parseInt(myObject[i].week2));
+            week3.push(parseInt(myObject[i].week3));
+            week4.push(parseInt(myObject[i].week4));
+          }
+          let weeks = ['Week1', 'Week2', 'Week3', 'Week4']
+          colors = ['rgb(255, 99, 132)', 'rgb(0, 0, 132)', 'rgb(24, 196, 157)', 'rgb(29, 24, 196)', 'rgb(196, 24, 58)', 'rgb(30, 4, 9)', 'rgb(104, 240, 27)', 'rgb(240, 224, 27)']
+          dataset = [];
+          for (let i = 0; i < nameOfProduct.length; i++) {
+            dataset.push({
+              label: nameOfProduct[i],
+              backgroundColor: colors[i],
+              borderColor: colors[i],
+              data: [week1[i], week2[i], week3[i], week4[i]]
+            })
+          }
+          const data = {
+            labels: weeks,
+            datasets: dataset
+          }
+          var ctx = $("#myChart1");
+          var LineGraph = new Chart(ctx, {
+            type: 'line',
+            data: data
+          });
+        },
+        error: function(data) {
+          console.log('error getting data in salesreport table.')
+        }
+      });
+    });
   </script>
 </body>
 

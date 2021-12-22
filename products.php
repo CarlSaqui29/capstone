@@ -257,13 +257,17 @@
                 <input type="number" min="0" class="form-control" id="pRetail" name="productRetail" placeholder="0">
               </div>
               <div class="col-md-12 mt-2">
-                <label for="productSupplier" class="form-label">Supplier</label>
-                <select name="productSupplier" class="form-select">
-                  <option selected>Mangboks Betamax</option>
-                  <option>Siomai tbp.</option>
-                  <option>Stick Fish ball</option>
-                  <option>Kakanin atb.</option>
-                  <option>Street Quek Quek</option>
+              <select name="productSupplier" class="form-select">
+                  <option selected>GFOXX</option>
+                  <?php
+                  $queryPro = "SELECT * FROM supplier";
+                  $resultPro = mysqli_query($db_link, $queryPro);
+                  while ($rowPro = mysqli_fetch_array($resultPro)) {
+                    if ($rowPro['suppliername'] != $row['supplier']) { ?>
+                      <option><?php echo $rowPro['suppliername']; ?></option>
+                  <?php
+                    };
+                  }; ?>
                 </select>
               </div>
               <div class="col-md-12 mt-4 mb-2" style="text-align: right;">

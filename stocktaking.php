@@ -10,7 +10,7 @@
  <link rel="stylesheet" href="css/styles.css">
  <title>Stocks Taking</title>
 </head>
-
+ 
 <body id="body-pd" class="bg-light">
  <header class="header" id="header">
   <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
@@ -79,6 +79,24 @@
       $result = mysqli_query($db_link, $query);
       while ($row = mysqli_fetch_array($result)) {
       ?>
+
+        <?php 
+            if ($row['signals'] == 1){
+                echo('Successfully submitted your request');
+            ?>
+            
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                
+                    $(document).ready(function(){
+                        $('#con').prop("disabled", false);
+                        $('#req').prop("disabled", true);
+                    })
+
+            </script>
+        <?php
+            }
+        ?>
        <tr>
         <td><a href="#" class="pop"><img src="uploads/<?= $row['img_url'] ?>" alt=""></a></td>
         <td><?php echo $row['category']; ?></td>
@@ -86,8 +104,8 @@
         <td>Php <?php echo $row['retail']; ?></td>
         <td><?php echo $row['quantity']; ?> pcs.</td>
         <td><?php echo $row['supplier']; ?></td>
-        <td><button type="button" data-bs-toggle="modal" data-bs-target="#salesModal<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Request Order</button></td>
-        <td><button class="btn btn-sm btn-primary">Confirm Order</button></td>
+        <td><button type="button" id="req"  data-bs-toggle="modal" data-bs-target="#salesModal<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Request Order</button></td>
+        <td><button class="btn btn-sm btn-primary" id="con" disabled>Confirm Order</button></td>
        </tr>
 
        <!--Form Modal -->
@@ -175,6 +193,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#request').click(function(){
+                var quants = $('#qtytobeordered').val()
+                if (quants == "" ){
+                    console.log("It's Blank!")
+                }else if (quants <= 20){
+                    console.log('bawal lods lower than 20!')
+                }
+            })
+
+        })
+    </script>
 </body>
 
 </html>

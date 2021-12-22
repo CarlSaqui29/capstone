@@ -5,25 +5,54 @@ include "config.php";
 // SALES PAGE
 // transaction form
 if (isset($_POST['submitSaleForm'])) {
- $id = $_POST['id'];
- $curQty = $_POST['curQty'];
- $curDate = $_POST['curDate'];
- $customers = $_POST['customers'];
- $category = $_POST['category'];
- $pName = $_POST['pName'];
- $retail = $_POST['retail'];
- $qty = $_POST['qty'];
- $ta = $_POST['ta'];
- $profit = $_POST['profit'];
- $tendered = $_POST['tendered'];
- $change = $_POST['change'];
- // newQty deduction for pick order
- $newQty = $curQty - $qty;
- $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
+    $id = $_POST['id'];
+    $curQty = $_POST['curQty'];
+    $curDate = $_POST['curDate'];
+    $customers = $_POST['customers'];
+    $category = $_POST['category'];
+    $pName = $_POST['pName'];
+    $retail = $_POST['retail'];
+    $qty = $_POST['qty'];
+    $ta = $_POST['ta'];
+    $profit = $_POST['profit'];
+    $tendered = $_POST['tendered'];
+    $change = $_POST['change'];
+    // newQty deduction for pick order
+    $newQty = $curQty - $qty;
+    $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
 
- #update products table
- $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
- header("Location: sales.php");
+    // update the data qty regards to date(month) in salesreport
+    $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
+    $month = $date->format('F');
+    $month = strtolower($month);
+    $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
+    $row = mysqli_fetch_array($r);
+    $currentval = $row[$month];
+    $totals = (int)$currentval + (int)$qty;
+    $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+
+    // update the quantity regards by day
+    $day = $date->format('l');
+    $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
+    $row = mysqli_fetch_array($r);
+    $currentval = $row[$day];
+    $totals = (int)$currentval + (int)$qty;
+    $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
+
+    $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
+    $row1 = mysqli_fetch_array($r1);
+    $week = $row1['week'];
+    $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
+    $itemrow = mysqli_fetch_array($item);
+    $whatweek = 'week' . $week;
+    $val = $itemrow[$whatweek];
+    $totals = (int)$val + (int)$qty;
+    $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
+
+
+    #update products table
+    $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
+    header("Location: sales.php");
 }
 
 // SALESPERSON PAGE
@@ -54,44 +83,52 @@ if (isset($_POST['submitSalespersonForm'])) {
 // PRODUCT PAGE
 // add form
 if (isset($_POST['addProduct']) && isset($_FILES['my_image'])) {
- $productCategory = $_POST['productCategory'];
- $productName = $_POST['productName'];
- $productQty = $_POST['productQty'];
- $productPurchaseAmount = $_POST['productPurchaseAmount'];
- $productRetail = $_POST['productRetail'];
- $productSupplier = $_POST['productSupplier'];
- $my_image = $_POST['my_image'];
+    $productCategory = $_POST['productCategory'];
+    $productName = $_POST['productName'];
+    $productQty = $_POST['productQty'];
+    $productPurchaseAmount = $_POST['productPurchaseAmount'];
+    $productRetail = $_POST['productRetail'];
+    $productSupplier = $_POST['productSupplier'];
+    $my_image = $_POST['my_image'];
 
- // img validation
- $img_name = $_FILES['my_image']['name'];
- $img_size = $_FILES['my_image']['size'];
- $tmp_name = $_FILES['my_image']['tmp_name'];
- $error = $_FILES['my_image']['error'];
+    // img validation
+    $img_name = $_FILES['my_image']['name'];
+    $img_size = $_FILES['my_image']['size'];
+    $tmp_name = $_FILES['my_image']['tmp_name'];
+    $error = $_FILES['my_image']['error'];
 
- $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
- $img_ex_lc = strtolower($img_ex);
- $allowed_exs = array("jpg", "jpeg", "png");
+    $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+    $img_ex_lc = strtolower($img_ex);
+    $allowed_exs = array("jpg", "jpeg", "png");
 
- if (in_array($img_ex_lc, $allowed_exs)) {
-  $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-  $img_upload_path = 'uploads/' . $new_img_name;
-  move_uploaded_file($tmp_name, $img_upload_path);
-  $db_link->query("INSERT INTO products (category, name, quantity, purchase, retail, supplier, img_url) VALUES('$productCategory', '$productName', '$productQty', '$productPurchaseAmount', '$productRetail', '$productSupplier', '$new_img_name')") or die($db_link->error);
-  header('location: products.php');
- }
+    if (in_array($img_ex_lc, $allowed_exs)) {
+        $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+        $img_upload_path = 'uploads/' . $new_img_name;
+        move_uploaded_file($tmp_name, $img_upload_path);
+        $db_link->query("INSERT INTO products (category, name, quantity, purchase, retail, supplier, img_url) VALUES('$productCategory', '$productName', '$productQty', '$productPurchaseAmount', '$productRetail', '$productSupplier', '$new_img_name')") or die($db_link->error);
+        // sales report
+        $db_link->query("INSERT INTO salesreport (nameOfProduct) VALUES ('$productName')") or die($db_link->error);
+        $db_link->query("INSERT INTO salesreport1 (nameOfProduct) VALUES ('$productName')") or die($db_link->error);
+        $db_link->query("INSERT INTO salesreport2 (nameOfProduct) VALUES ('$productName')") or die($db_link->error);
+        header('location: products.php');
+    }
 }
 
 // edit form
 if (isset($_POST['updateFormProducts'])) {
- $id = $_POST['id'];
- $category = $_POST['category'];
- $name = $_POST['name'];
- $qty = $_POST['qty'];
- $pa = $_POST['pa'];
- $retail = $_POST['retail'];
- $suppliers = $_POST['suppliers'];
- $db_link->query("UPDATE products SET category='$category', name='$name', quantity='$qty', purchase='$pa', retail='$retail', supplier='$suppliers' WHERE id=$id") or die($db_link->error);
- header("Location: products.php");
+    $id = $_POST['id'];
+    $category = $_POST['category'];
+    $name = $_POST['name'];
+    $qty = $_POST['qty'];
+    $pa = $_POST['pa'];
+    $retail = $_POST['retail'];
+    $suppliers = $_POST['suppliers'];
+    $db_link->query("UPDATE products SET category='$category', name='$name', quantity='$qty', purchase='$pa', retail='$retail', supplier='$suppliers', signals=0 WHERE id=$id") or die($db_link->error);
+    // sales report
+    $db_link->query("UPDATE salesreport SET nameOfProduct='$name' WHERE id=$id") or die($db_link->error);
+    $db_link->query("UPDATE salesreport1 SET nameOfProduct='$name' WHERE id=$id") or die($db_link->error);
+    $db_link->query("UPDATE salesreport2 SET nameOfProduct='$name' WHERE id=$id") or die($db_link->error);
+    header("Location: products.php");
 }
 
 // delete
@@ -156,7 +193,7 @@ if (isset($_GET['deleteCustomer'])) {
 
 // FORM PAGE
 //add orders
-if (isset($_POST['submitOrderForm'])) {
+if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     $name = $_POST['name'];
     $fbname = $_POST['fbname'];
     $concern = $_POST['concern'];
@@ -170,12 +207,36 @@ if (isset($_POST['submitOrderForm'])) {
     $barangay = $_POST['barangay'];
     $bottles = $_POST['bottles'];
     $receivecall = $_POST['receivecall'];
-    $mop = $_POST['mop'];
     $noteforDelivery = $_POST['noteforDelivery'];
 
-    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
+    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
 
-    echo"<script>alert('Successfully Submitted your Order')</script>";
+    $mop = $_POST['mop'];
 
-    header("Location: form.php");
-   }
+    // echo "<script>console.log('bbbb');</script>";
+    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
+    // echo "<script>alert('Successfully Submitted your Order')</script>";
+    // header("Location: form.php");
+
+    $ig = $_POST['payment1'];
+    // img validation
+    $img_name = $_FILES['payment1']['name'];
+    $img_size = $_FILES['payment1']['size'];
+    $tmp_name = $_FILES['payment1']['tmp_name'];
+    $error = $_FILES['payment1']['error'];
+
+    $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+    $img_ex_lc = strtolower($img_ex);
+    $allowed_exs = array("jpg", "jpeg", "png");
+    echo "<script>console.log('aaa');</script>";
+    if (in_array($img_ex_lc, $allowed_exs)) {
+        $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+        $img_upload_path = 'screenshots/' . $new_img_name;
+        move_uploaded_file($tmp_name, $img_upload_path);
+        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery')") or die($db_link->error);
+        echo "<script>alert('Successfully Submitted your Order')</script>";
+        header("Location: form.php");
+    }
+    
+  
+}

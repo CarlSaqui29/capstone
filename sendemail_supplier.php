@@ -1,8 +1,16 @@
 <?php
+session_start();
+include "config.php";
+
 if (isset($_POST['submitSupplierForm'])) {
+    $id = $_POST['id'];
     $product = $_POST['pName'];
     $stock = $_POST['stocks'];
     $quants = $_POST['qtytobeordered'];
+
+    $val = 1;
+
+    $db_link->query("UPDATE products SET signals='$val' WHERE id=$id") or die($db_link->error);
 }
 ?>
 
