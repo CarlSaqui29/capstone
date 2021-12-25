@@ -80,23 +80,6 @@
       while ($row = mysqli_fetch_array($result)) {
       ?>
 
-        <?php 
-            if ($row['signals'] == 1){
-                echo('Successfully submitted your request');
-            ?>
-            
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-            <script>
-                
-                    $(document).ready(function(){
-                        $('#con').prop("disabled", false);
-                        $('#req').prop("disabled", true);
-                    })
-
-            </script>
-        <?php
-            }
-        ?>
        <tr>
         <td><a href="#" class="pop"><img src="uploads/<?= $row['img_url'] ?>" alt=""></a></td>
         <td><?php echo $row['category']; ?></td>
@@ -104,9 +87,34 @@
         <td>Php <?php echo $row['retail']; ?></td>
         <td><?php echo $row['quantity']; ?> pcs.</td>
         <td><?php echo $row['supplier']; ?></td>
-        <td><button type="button" id="req"  data-bs-toggle="modal" data-bs-target="#salesModal<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Request Order</button></td>
-        <td><button class="btn btn-sm btn-primary" id="con" disabled>Confirm Order</button></td>
+        <td><button type="button" data-bs-toggle="modal" data-bs-target="#salesModal<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Request Order</button></td>
+        <td><button type="button" data-bs-toggle="modal" data-bs-target="#confirm<?php echo $row['id']; ?>" class="btn btn-sm btn-primary">Confirm Order</button></td>
+   
        </tr>
+
+         <!-- confirmation modal -->
+        <div class="modal fade" id="confirm<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation of order</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <h3>You are now confirming the order you requested in your supplier</h3> <br>
+            <h3>The product is: <?php echo $row['name']; ?></h3>
+            </div>
+            <div class="modal-footer">
+                <form action="functions.php" method="POST">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="name" value="<?php echo $row['name']; ?>">
+                    <button type="submit" class="btn btn-success" name="orderConfirm">Confirm Order</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+        </div>
 
        <!--Form Modal -->
        <div class="modal fade" id="salesModal<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -143,10 +151,10 @@
               <div class="input-group-text">Qty. to be ordered</div>
               <input type="number" min="1" name="qtytobeordered" value="" class="form-control" id="qtytobeordered" required>
              </div>
-             <p class="mt-3"><b>Attention:</b> Once you confirm the order the product will be automatically ordered to its supplier with the quantity that you specify above.</p>
+             <p class="mt-3"><b>Attention:</b> Once you confirm the order the product will be automatically ordered to its supplier with the quantity that you specify above. (Default is 20 above)</p>
              <div class="col-md-12 mt-4 mb-2" style="text-align: right;">
               <button name="submitSupplierForm" id="request" class="btn btn-primary">Send Request</button>
-              <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
              </div>
             </div>
            </form>
@@ -193,19 +201,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#request').click(function(){
-                var quants = $('#qtytobeordered').val()
-                if (quants == "" ){
-                    console.log("It's Blank!")
-                }else if (quants <= 20){
-                    console.log('bawal lods lower than 20!')
-                }
-            })
-
-        })
-    </script>
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 
 <?php
-
     session_start();
     require('config.php');
     
@@ -24,12 +23,16 @@
                 Swal.fire({
                 icon: 'error',
                 title: 'Username and/or Password is incorrect',
-                text: 'Something went wrong! Refreshing in 2 seconds...',
+                text: 'Something went wrong!',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Okay'
-                });
-                setTimeout(function(){ 
-                    window.location.href = "login.php"; }, 2000);
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "login.php";
+                    }else{
+                        window.location.href = "login.php";
+                    }
+                })
                 
             })
     

@@ -8,52 +8,61 @@ if (isset($_POST['submitSupplierForm'])) {
     $stock = $_POST['stocks'];
     $quants = $_POST['qtytobeordered'];
 
-    $val = 1;
+    $checking = "SELECT * FROM requested WHERE products='$product'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+    if($row == 0){
+        $db_link->query("INSERT INTO requested (products, quantity) VALUES('$product', '$quants')") or die($db_link->error);
+        include 'mailersupplier.php';
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                title: 'Your request successfully sent to the supplier.',
+                text: "Please wait for the email for confirmation.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "stocktaking.php";
+                    }else{
+                        window.location.href = "stocktaking.php";
+                    }
+                })
+                
+            })
+        </script>
+        <?php
+    }else{?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                title: 'Your request has already been sent. Please make sure to confirm your order.',
+                text: "Something went wrong!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "stocktaking.php";
+                    }else{
+                        window.location.href = "stocktaking.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+    
+    <?php
+    }
 
-    $db_link->query("UPDATE products SET signals='$val' WHERE id=$id") or die($db_link->error);
 }
 ?>
 
-<?php 
-    use PHPMailer\PHPMailer\PHPMailer;
-
-    require_once "PHPMailer.php";
-    require_once "SMTP.php";
-    require_once "Exception.php";
-
-    $mail = new PHPMailer;
-
-    $email = "sample@gmail.com";
-    $name = "Request for Re-stock";
-
-    //SMTP Settings
-    $mail->SMTPDebug = 0; 
-
-    $mail->IsSMTP();
-    $mail->Host = "smtp.gmail.com";
-    $mail->SMTPAuth = true;
-    $mail->Username = "sample@gmail.com";
-    $mail->Password = "";
-    $mail->Port = 587; //465 for ssl and 587 for tls
-    $mail->SMTPSecure = "tls";
-
-    //Email Settings
-    $mail->isHTML(true);
-    $mail->setFrom($email, $name);
-    $mail->addAddress(address:'sample@gmail.com');
-    $mail->Subject = "Request";
-    $mail->Body = 'We would like to request for restock for our product'." ".$product."."." ".
-    "The total stock that we have now is"." ".$stock."."." "."We are requesting for a total of"." ".$quants." ". 
-    "for our product."." "."Thank you have a nice day.";
-
-    if ($mail->send())
-        echo "Mail Sent";
-
-    else
-        #echo('Error sending the email');
-
-?>
-<script>
-    window.location.href = "stocktaking.php";
-</script>
 

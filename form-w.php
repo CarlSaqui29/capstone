@@ -15,7 +15,7 @@
         <div class="container">
             <div class="card custom-container">
                 <div class="text-center">
-                    <h2>(ORDER FORM) - Gfoxx Spirulina</h2>
+                    <h2>(ORDER FORM) - Gfoxx Spirulina for Women.</h2>
                     <p>Please fill up the form para ma-process po namin ang order niyo. 🛒</p>
                     <p>Ito po ang mga number po ng aming Call Supports . Maari po silang tawagan sa oras ng kanilang duty sa umaga o sa hapon. 😃</p>
                     <p> Ms. Jona - 09754606032 (7am-4pm) <br>
@@ -72,12 +72,13 @@
                     <div class="form-group col">
                         <label for="">How many bottles po?</label>
                         <p>Avail na po sila ng 2-3 bottles promos para masulit ang free shipping po natin. 1075 pesos lang po pumapatak kada isang bottle kapag 2 bottles promo save up to 801 pesos kapag 2 bottles promo po pero kapag 3 bottles promo naman po pumapatak 1000 pesos each bottle lang po save up to 1201 pesos kapag 3 bottles promo po ang inavail nila.</p>
+                        <p></p>
 
-                        <input type="radio" name="bottles" value="A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks."> A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.
+                        <input type="radio" name="bottles" value="P1,135 ONLY! FREE Shipping."> A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.
                         <br>
-                        <input type="radio" name="bottles" value="B.) BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle."> B.) BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle.
+                        <input type="radio" name="bottles" value="P1,900 FREE Shipping + FREE one Alcohol with Spray bottle."> B.) BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle.
                         <br>
-                        <input type="radio" name="bottles" value="C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle."> C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle.
+                        <input type="radio" name="bottles" value="P2,700 FREE Shipping + FREE one Alcohol with Spray bottle."> C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle.
 
                     </div>
                     <br>
@@ -105,12 +106,6 @@
                         <label>*Please take a screenshot for proof of payment.*</label>
                         <br>
                         <input type="file" name="payment1" id="pay">
-                   
-                        <!-- <label>*Please take a screenshot for proof of payment.*</label>
-                        <br>
-                        <input type="file" name="payment1" id="bank"> -->
-
-
                     </div>
                     <br>
 
@@ -122,7 +117,7 @@
                     <br>
                     <div class="form-group col">
                         <input type="checkbox" required>
-                        <label>I agree in Terms and Agreement (No Cancellation Policy) </label>
+                        I agree in Terms and Agreement <a href="" type="button" data-bs-toggle="modal" data-bs-target="#terms"> (No Cancellation Policy)</a>
                     </div>
                     <br>
 
@@ -163,7 +158,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="receipt">Download Receipt</button>
-                    <button type="submit" class="btn btn-primary" name="submitOrderForm">Submit Order</button>
+                    <button type="submit" class="btn btn-primary" name="submitOrderForm-W">Submit Order</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>
@@ -172,6 +167,27 @@
     </div>
 
 
+    <div class="modal fade" id="terms" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Terms and Agreement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 20px;">As per company policy, once your order is processed; We DO NOT PERMIT any cancellation of order. <br><br>
+                        WARNING: Ang pagtanggi sa delivery ay pwedeng makapag resulta ng ban sa pag order online like Lazada, Shopee, and more.
+                        We appreciate your patience and understanding. <br><br>
+                        We do recommend you to review your order bago mag confirm. <br><br>
+                        Para di po kayo ma tag as Bogus buyer at di po maapektohan ang record nyo sa mga online
+                        shopping nyo sa ibang platform tulad ng Shopee, lazada, etc. <br><br>  Thank you! Have a great day! 🙂</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

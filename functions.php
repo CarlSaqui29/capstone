@@ -123,7 +123,7 @@ if (isset($_POST['updateFormProducts'])) {
     $pa = $_POST['pa'];
     $retail = $_POST['retail'];
     $suppliers = $_POST['suppliers'];
-    $db_link->query("UPDATE products SET category='$category', name='$name', quantity='$qty', purchase='$pa', retail='$retail', supplier='$suppliers', signals=0 WHERE id=$id") or die($db_link->error);
+    $db_link->query("UPDATE products SET category='$category', name='$name', quantity='$qty', purchase='$pa', retail='$retail', supplier='$suppliers' WHERE id=$id") or die($db_link->error);
     // sales report
     $db_link->query("UPDATE salesreport SET nameOfProduct='$name' WHERE id=$id") or die($db_link->error);
     $db_link->query("UPDATE salesreport1 SET nameOfProduct='$name' WHERE id=$id") or die($db_link->error);
@@ -191,9 +191,9 @@ if (isset($_GET['deleteCustomer'])) {
 
 
 
-// FORM PAGE
+// FORM PAGE MEN
 //add orders
-if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
+if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
     $name = $_POST['name'];
     $fbname = $_POST['fbname'];
     $concern = $_POST['concern'];
@@ -235,8 +235,98 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
         move_uploaded_file($tmp_name, $img_upload_path);
         $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery')") or die($db_link->error);
         echo "<script>alert('Successfully Submitted your Order')</script>";
-        header("Location: form.php");
+        header("Location: form-m.php");
     }
     
   
+}
+
+
+// FORM PAGE WOMEN
+//add orders
+if (isset($_POST['submitOrderForm-W'])  && isset($_FILES['payment1'])) {
+    $name = $_POST['name'];
+    $fbname = $_POST['fbname'];
+    $concern = $_POST['concern'];
+    $question = $_POST['question'];
+    $number = $_POST['number'];
+    $extranumber = $_POST['extranumber'];
+    $address = $_POST['address'];
+    $landmark = $_POST['landmark'];
+    $province = $_POST['province'];
+    $city = $_POST['city'];
+    $barangay = $_POST['barangay'];
+    $bottles = $_POST['bottles'];
+    $receivecall = $_POST['receivecall'];
+    $noteforDelivery = $_POST['noteforDelivery'];
+
+    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
+
+    $mop = $_POST['mop'];
+
+    // echo "<script>console.log('bbbb');</script>";
+    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
+    // echo "<script>alert('Successfully Submitted your Order')</script>";
+    // header("Location: form.php");
+
+    $ig = $_POST['payment1'];
+    // img validation
+    $img_name = $_FILES['payment1']['name'];
+    $img_size = $_FILES['payment1']['size'];
+    $tmp_name = $_FILES['payment1']['tmp_name'];
+    $error = $_FILES['payment1']['error'];
+
+    $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+    $img_ex_lc = strtolower($img_ex);
+    $allowed_exs = array("jpg", "jpeg", "png");
+    echo "<script>console.log('aaa');</script>";
+    if (in_array($img_ex_lc, $allowed_exs)) {
+        $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+        $img_upload_path = 'screenshots/' . $new_img_name;
+        move_uploaded_file($tmp_name, $img_upload_path);
+        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery')") or die($db_link->error);
+        echo "<script>alert('Successfully Submitted your Order')</script>";
+        header("Location: form-w.php");
+    }
+    
+}
+
+// Stocktaking Confirmation of Orders
+if (isset($_POST['orderConfirm'])) {
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $checking = "SELECT * FROM requested WHERE products='$name'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+    $display = mysqli_fetch_array($prompt);
+    if ($row != 0){
+        $ids = $display['id'];
+        $quants = $display['quantity'];
+        $db_link->query("UPDATE products SET quantity='$quants' WHERE id=$id") or die($db_link->error);
+        $db_link->query("DELETE FROM requested WHERE id=$ids") or die($db_link->error);
+        header("Location: stocktaking.php");
+    }else{?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                title: 'Please request first before confirming the order!',
+                text: "Something went wrong!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "stocktaking.php";
+                    }else{
+                        window.location.href = "stocktaking.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
 }
