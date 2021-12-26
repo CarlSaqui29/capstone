@@ -77,7 +77,9 @@
        <th scope="col">Bottles</th>
        <th scope="col">Receive Call</th>
        <th scope="col">MOP</th>
+       <th scope="col">IMAGE</th>
        <th scope="col">Note</th>
+       <th scope="col">Status</th>
       </tr>
      </thead>
      <tbody>
@@ -102,7 +104,22 @@
        <td><?php echo $row['bottles']; ?></td>
        <td><?php echo $row['receivecall']; ?></td>
        <td><?php echo $row['mop']; ?></td>
+       <?php 
+       $str = $row['mop'];
+       $getStr = explode(" ",$str)[2];    
+       ?>
+       <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
        <td><?php echo $row['note']; ?></td>
+       <td>
+           <select class="btn btn-secondary" name="" id="">
+               <option value="NEW">NEW</option>
+               <option value="CONFIRMED">CONFIRMED</option>
+               <option value="PAID">PAID</option>
+               <option value="SHIPPED">SHIPPED</option>
+               <option value="DELIVERED">DELIVERED</option>
+               <option value="RETURNED">RETURNED</option>
+           </select>
+       </td>
       </tr>
       <?php
       } ?>
@@ -120,6 +137,25 @@
  </div>
  </div>
 
+
+  <!-- image modal -->
+  <div class="modal fade" id="imagemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal Image</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="" class="imagepreview" style="width: 100%;">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
  <script src="js/app.js"></script>

@@ -151,7 +151,7 @@
               <div class="input-group-text">Qty. to be ordered</div>
               <input type="number" min="1" name="qtytobeordered" value="" class="form-control" id="qtytobeordered" required>
              </div>
-             <p class="mt-3"><b>Attention:</b> Once you confirm the order the product will be automatically ordered to its supplier with the quantity that you specify above. (Default is 20 above)</p>
+             <p class="mt-3"><b>Attention:</b> Once you confirm the order the product will be automatically ordered to its supplier with the quantity that you specify above.</p>
              <div class="col-md-12 mt-4 mb-2" style="text-align: right;">
               <button name="submitSupplierForm" id="request" class="btn btn-primary">Send Request</button>
               <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
