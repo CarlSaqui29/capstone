@@ -218,25 +218,32 @@ if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
     // echo "<script>alert('Successfully Submitted your Order')</script>";
     // header("Location: form.php");
 
-    $ig = $_POST['payment1'];
-    // img validation
-    $img_name = $_FILES['payment1']['name'];
-    $img_size = $_FILES['payment1']['size'];
-    $tmp_name = $_FILES['payment1']['tmp_name'];
-    $error = $_FILES['payment1']['error'];
-
-    $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-    $img_ex_lc = strtolower($img_ex);
-    $allowed_exs = array("jpg", "jpeg", "png");
-    echo "<script>console.log('aaa');</script>";
-    if (in_array($img_ex_lc, $allowed_exs)) {
-        $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-        $img_upload_path = 'screenshots/' . $new_img_name;
-        move_uploaded_file($tmp_name, $img_upload_path);
-        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery')") or die($db_link->error);
+    if ($mop == 'CASH ON DELIVERY') {
+        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
         echo "<script>alert('Successfully Submitted your Order')</script>";
-        header("Location: form-m.php");
+        header("Location: form-w.php");
+    }else{
+        $ig = $_POST['payment1'];
+        // img validation
+        $img_name = $_FILES['payment1']['name'];
+        $img_size = $_FILES['payment1']['size'];
+        $tmp_name = $_FILES['payment1']['tmp_name'];
+        $error = $_FILES['payment1']['error'];
+    
+        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+        $img_ex_lc = strtolower($img_ex);
+        $allowed_exs = array("jpg", "jpeg", "png");
+        echo "<script>console.log('aaa');</script>";
+        if (in_array($img_ex_lc, $allowed_exs)) {
+            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+            $img_upload_path = 'screenshots/' . $new_img_name;
+            move_uploaded_file($tmp_name, $img_upload_path);
+            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+            echo "<script>alert('Successfully Submitted your Order')</script>";
+            header("Location: form-m.php");
+        }
     }
+  
     
   
 }
@@ -269,25 +276,32 @@ if (isset($_POST['submitOrderForm-W'])  && isset($_FILES['payment1'])) {
     // echo "<script>alert('Successfully Submitted your Order')</script>";
     // header("Location: form.php");
 
-    $ig = $_POST['payment1'];
-    // img validation
-    $img_name = $_FILES['payment1']['name'];
-    $img_size = $_FILES['payment1']['size'];
-    $tmp_name = $_FILES['payment1']['tmp_name'];
-    $error = $_FILES['payment1']['error'];
-
-    $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-    $img_ex_lc = strtolower($img_ex);
-    $allowed_exs = array("jpg", "jpeg", "png");
-    echo "<script>console.log('aaa');</script>";
-    if (in_array($img_ex_lc, $allowed_exs)) {
-        $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-        $img_upload_path = 'screenshots/' . $new_img_name;
-        move_uploaded_file($tmp_name, $img_upload_path);
-        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery')") or die($db_link->error);
+    if ($mop == 'CASH ON DELIVERY') {
+        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
         echo "<script>alert('Successfully Submitted your Order')</script>";
         header("Location: form-w.php");
+    } else{
+        $ig = $_POST['payment1'];
+        // img validation
+        $img_name = $_FILES['payment1']['name'];
+        $img_size = $_FILES['payment1']['size'];
+        $tmp_name = $_FILES['payment1']['tmp_name'];
+        $error = $_FILES['payment1']['error'];
+    
+        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+        $img_ex_lc = strtolower($img_ex);
+        $allowed_exs = array("jpg", "jpeg", "png");
+        echo "<script>console.log('aaa');</script>";
+        if (in_array($img_ex_lc, $allowed_exs)) {
+            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+            $img_upload_path = 'screenshots/' . $new_img_name;
+            move_uploaded_file($tmp_name, $img_upload_path);
+            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+            echo "<script>alert('Successfully Submitted your Order')</script>";
+            header("Location: form-w.php");
+        }
     }
+
     
 }
 
@@ -329,4 +343,62 @@ if (isset($_POST['orderConfirm'])) {
         </script>
         <?php
     }
+}
+
+
+// Orders Update
+if (isset($_POST['updtStat'])) {
+    $id = $_POST['id'];
+    $gets = $_POST['stats'];
+    
+    if ($gets == ""){
+        ?>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    Swal.fire({
+                    title: 'An error occured!',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Okay'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "orders.php";
+                        }else{
+                            window.location.href = "orders.php";
+                        }
+                    })
+                    
+                })
+        
+            </script>
+            <?php
+    }else{
+        $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        ?>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    Swal.fire({
+                    title: 'Successfully Updated',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Okay'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "orders.php";
+                        }else{
+                            window.location.href = "orders.php";
+                        }
+                    })
+                    
+                })
+        
+            </script>
+            <?php
+    }
+
+
 }

@@ -58,7 +58,8 @@
      <span class="input-group-text bg-primary text-white"><i class='bx bx-search-alt-2 nav_logo-icon'></i></span>
     </div>
    </div>
-
+   <br>
+   <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
    <div class="tableData overflow-auto">
     <table class="table mt-4 table-hover" id="myTableOrders">
      <thead class="table-dark">
@@ -80,6 +81,7 @@
        <th scope="col">IMAGE</th>
        <th scope="col">Note</th>
        <th scope="col">Status</th>
+       <th scope="col">Submit Status</th>
       </tr>
      </thead>
      <tbody>
@@ -110,16 +112,21 @@
        ?>
        <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
        <td><?php echo $row['note']; ?></td>
-       <td>
-           <select class="btn btn-secondary" name="" id="">
-               <option value="NEW">NEW</option>
-               <option value="CONFIRMED">CONFIRMED</option>
-               <option value="PAID">PAID</option>
-               <option value="SHIPPED">SHIPPED</option>
-               <option value="DELIVERED">DELIVERED</option>
-               <option value="RETURNED">RETURNED</option>
-           </select>
-       </td>
+       <form action="functions.php" method="POST">
+       <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+        <td>
+            <select class="btn btn-secondary" name="stats" id="">
+            <option value="" disabled selected><?php echo $row['status'];?></option>
+                <button type="submit" class="btn"> <option value="NEW">NEW</option> </button>
+                <option value="CONFIRMED">CONFIRMED</option>
+                <option value="PAID">PAID</option>
+                <option value="SHIPPED">SHIPPED</option>
+                <option value="DELIVERED">DELIVERED</option>
+                <option value="RETURNED">RETURNED</option>
+            </select>
+        </td>
+        <td><button type="submit" class="btn btn-success" name="updtStat">Update</button></td>
+       </form>
       </tr>
       <?php
       } ?>
