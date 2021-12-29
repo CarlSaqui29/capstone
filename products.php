@@ -258,7 +258,6 @@
               </div>
               <div class="col-md-12 mt-2">
               <select name="productSupplier" class="form-select">
-                  <option selected>GFOXX</option>
                   <?php
                   $queryPro = "SELECT * FROM supplier";
                   $resultPro = mysqli_query($db_link, $queryPro);

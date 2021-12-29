@@ -70,7 +70,6 @@
        <th scope="col">Question</th>
        <th scope="col">Mobile #</th>
        <th scope="col">Other Mobile #</th>
-       <th scope="col">Address</th>
        <th scope="col">Landmark</th>
        <th scope="col">Province</th>
        <th scope="col">City</th>
@@ -98,7 +97,6 @@
        <td><?php echo $row['question']; ?></td>
        <td><?php echo $row['phone']; ?></td>
        <td><?php echo $row['extraphone']; ?></td>
-       <td><?php echo $row['address']; ?></td>
        <td><?php echo $row['landmark']; ?></td>
        <td><?php echo $row['province']; ?></td>
        <td><?php echo $row['city']; ?></td>
