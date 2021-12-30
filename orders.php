@@ -60,6 +60,15 @@
    </div>
    <br>
    <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
+   <select class="btn btn-success"> 
+      <option disabled selected>Filter</option>
+      <option value="NEW">NEW</option>
+      <option value="CONFIRMED">CONFIRMED</option>
+      <option value="PAID">PAID</option>
+      <option value="SHIPPED">SHIPPED</option>
+      <option value="DELIVERED">DELIVERED</option>
+      <option value="RETURNED">RETURNED</option>
+   </select>
    <div class="tableData overflow-auto">
     <table class="table mt-4 table-hover" id="myTableOrders">
      <thead class="table-dark">
@@ -115,7 +124,7 @@
         <td>
             <select class="btn btn-secondary" name="stats" id="">
             <option value="" disabled selected><?php echo $row['status'];?></option>
-                <button type="submit" class="btn"> <option value="NEW">NEW</option> </button>
+                <option value="NEW">NEW</option>
                 <option value="CONFIRMED">CONFIRMED</option>
                 <option value="PAID">PAID</option>
                 <option value="SHIPPED">SHIPPED</option>
