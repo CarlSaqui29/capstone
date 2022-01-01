@@ -236,3 +236,30 @@ function searchOrders() {
     rowCountO = 0;
   }
 };
+
+
+// for orders
+let fil = $('#filter_').val();
+
+function getItems(val) {
+  let filter_, table_, tr_, i;
+  let td0_;
+  let txtVal0_;
+  filter_ = val.toUpperCase();
+  table_ = document.getElementById("orb");
+  tr_ = table_.getElementsByTagName("tr");
+
+  for (i = 0; i < tr_.length; i++) {
+    td0_ = tr_[i].getElementsByTagName("td")[15];
+    if (td0_) {
+      txtVal0_ = td0_.textContent || td0_.innerText;
+      if (txtVal0_.toUpperCase().indexOf(filter_) > -1) {
+        tr_[i].style.display = "";
+        // console.log('kak')
+        // rowCount++;
+      } else {
+        tr_[i].style.display = "none";
+      }
+    };       
+  };
+}
