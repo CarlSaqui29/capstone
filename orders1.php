@@ -55,8 +55,8 @@
    </div>
    <br>
    <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
-   <select class="btn btn-success"> 
-      <option disabled selected>Filter</option>
+   <select class="btn btn-success" id="filter_" onchange="getItems(this.value)"> 
+      <option disabled selected>All</option>
       <option value="NEW">NEW</option>
       <option value="CONFIRMED">CONFIRMED</option>
       <option value="PAID">PAID</option>

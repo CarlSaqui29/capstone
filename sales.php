@@ -109,7 +109,7 @@
 
                 echo "<br>";
               } else {
-                echo ('No detection');
+                // echo ('No detection');
               }
               ?>
 
