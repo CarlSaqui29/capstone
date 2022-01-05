@@ -14,7 +14,7 @@
         <div class="container">
             <div class="card custom-container">
                 <div class="text-center">
-                    <h2>(ORDER FORM) - Gfoxx Spirulina for Women.</h2>
+                    <h2>CV-GFOXX ORDER FORM.</h2>
                     <p>Please fill up the form para ma-process po namin ang order niyo. 🛒</p>
                     <p>Ito po ang mga number po ng aming Call Supports . Maari po silang tawagan sa oras ng kanilang duty sa umaga o sa hapon. 😃</p>
                     <p> Ms. Jona - 09754606032 (7am-4pm) <br>
@@ -145,7 +145,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="receipt">Download Receipt</button>
-                    <button type="submit" class="btn btn-primary" id="sub" name="submitOrderForm-W">Submit Order</button>
+                    <button type="submit" class="btn btn-primary" id="sub" name="submitOrderForm-M">Submit Order</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>

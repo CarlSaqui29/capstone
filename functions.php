@@ -191,7 +191,7 @@ if (isset($_GET['deleteCustomer'])) {
 
 
 
-// FORM PAGE MEN
+// FORM PAGE
 //add orders
 if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
     $name = $_POST['name'];
@@ -250,64 +250,6 @@ if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
   
 }
 
-
-// FORM PAGE WOMEN
-//add orders
-if (isset($_POST['submitOrderForm-W'])  && isset($_FILES['payment1'])) {
-    $name = $_POST['name'];
-    $fbname = $_POST['fbname'];
-    $concern = $_POST['concern'];
-    $question = $_POST['question'];
-    $number = $_POST['number'];
-    $extranumber = $_POST['extranumber'];
-    $address = $_POST['address'];
-    $landmark = $_POST['landmark'];
-    $province = $_POST['province'];
-    $city = $_POST['city'];
-    $barangay = $_POST['barangay'];
-    $bottles = $_POST['bottles'];
-    $receivecall = $_POST['receivecall'];
-    $noteforDelivery = $_POST['noteforDelivery'];
-
-    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
-
-    $mop = $_POST['mop'];
-
-    // echo "<script>console.log('bbbb');</script>";
-    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
-    // echo "<script>alert('Successfully Submitted your Order')</script>";
-    // header("Location: form.php");
-
-    if ($mop == 'CASH ON DELIVERY') {
-        $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$name', '$number', '$address', '$noteforDelivery')") or die($db_link->error);
-        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
-        echo "<script>alert('Successfully Submitted your Order')</script>";
-        header("Location: form-w.php");
-    } else{
-        $ig = $_POST['payment1'];
-        // img validation
-        $img_name = $_FILES['payment1']['name'];
-        $img_size = $_FILES['payment1']['size'];
-        $tmp_name = $_FILES['payment1']['tmp_name'];
-        $error = $_FILES['payment1']['error'];
-    
-        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-        $img_ex_lc = strtolower($img_ex);
-        $allowed_exs = array("jpg", "jpeg", "png");
-        echo "<script>console.log('aaa');</script>";
-        if (in_array($img_ex_lc, $allowed_exs)) {
-            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-            $img_upload_path = 'screenshots/' . $new_img_name;
-            move_uploaded_file($tmp_name, $img_upload_path);
-            $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$name', '$number', '$address', '$noteforDelivery')") or die($db_link->error);
-            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
-            echo "<script>alert('Successfully Submitted your Order')</script>";
-            header("Location: form-w.php");
-        }
-    }
-
-    
-}
 
 // Stocktaking Confirmation of Orders
 if (isset($_POST['orderConfirm'])) {

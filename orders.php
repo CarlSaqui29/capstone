@@ -74,7 +74,7 @@
           <thead class="table-dark">
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">FB Name</th>
+              <!-- <th scope="col">FB Name</th>
               <th scope="col">Concern</th>
               <th scope="col">Question</th>
               <th scope="col">Mobile #</th>
@@ -82,7 +82,7 @@
               <th scope="col">Landmark</th>
               <th scope="col">Province</th>
               <th scope="col">City</th>
-              <th scope="col">Barangay</th>
+              <th scope="col">Barangay</th> -->
               <th scope="col">Bottles</th>
               <th scope="col">Receive Call</th>
               <th scope="col">MOP</th>
@@ -102,7 +102,7 @@
             ?>
               <tr>
                 <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['fbname']; ?></td>
+                <!-- <td><?php echo $row['fbname']; ?></td>
                 <td><?php echo $row['concern']; ?></td>
                 <td><?php echo $row['question']; ?></td>
                 <td><?php echo $row['phone']; ?></td>
@@ -110,7 +110,7 @@
                 <td><?php echo $row['landmark']; ?></td>
                 <td><?php echo $row['province']; ?></td>
                 <td><?php echo $row['city']; ?></td>
-                <td><?php echo $row['barangay']; ?></td>
+                <td><?php echo $row['barangay']; ?></td> -->
                 <td><?php echo $row['bottles']; ?></td>
                 <td><?php echo $row['receivecall']; ?></td>
                 <td><?php echo $row['mop']; ?></td>

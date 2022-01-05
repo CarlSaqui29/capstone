@@ -63,6 +63,12 @@
      <thead class="table-dark">
       <tr>
        <th scope="col">Name</th>
+       <th scope="col">FB Name</th>
+       <th scope="col">Concern</th>
+       <th scope="col">Question</th>
+       <th scope="col">Mobile #</th>
+       <th scope="col">Other Mobile #</th>
+       <th scope="col">Landmark</th>
        <th scope="col">Contact</th>
        <th scope="col">Address</th>
        <th scope="col">Note</th>
@@ -72,13 +78,19 @@
      <tbody>
       <?php
       require('config.php');
-      $query = "SELECT * FROM customers";
+      $query = "SELECT * FROM orders";
       $result = mysqli_query($db_link, $query);
       while ($row = mysqli_fetch_array($result)) {
       ?>
        <tr>
         <td><?php echo $row['name']; ?></td>
-        <td><?php echo $row['contact']; ?></td>
+        <td><?php echo $row['fbname']; ?></td>
+        <td><?php echo $row['concern']; ?></td>
+        <td><?php echo $row['question']; ?></td>
+        <td><?php echo $row['phone']; ?></td>
+        <td><?php echo $row['extraphone']; ?></td>
+        <td><?php echo $row['landmark']; ?></td>
+        <td><?php echo $row['phone']; ?></td>
         <td><?php echo $row['address']; ?></td>
         <td><?php echo $row['note']; ?></td>
         <td><a type="button" class="btn btn-sm btn-danger" href="functions.php?deleteCustomer=<?php echo $row["id"] ?>">Delete</a></td>
@@ -94,13 +106,13 @@
      <p>Search for names, prices, category, supplier and etc.</p>
     </div>
    </div>
-   <button type="button" class="btn btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Customer <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
+   <!-- <button type="button" class="btn btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Customer <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button> -->
    <button type="button" class="btn btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#adduserModal">Add Users <i class='bx bx-plus nav_icon' style="transform: translateY(3px);"></i></button>
    <button type="button" class="btn btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#viewuserModal">View Users <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
   </div>
  </div>
 
- <!-- Modal -->
+ <!-- Modal
  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
    <div class="modal-content">
@@ -136,7 +148,7 @@
     </div>
    </div>
   </div>
- </div>
+ </div> -->
 
 
 

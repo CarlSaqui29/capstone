@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2021 at 06:43 AM
+-- Generation Time: Jan 04, 2022 at 02:06 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -34,13 +34,6 @@ CREATE TABLE `customers` (
   `address` varchar(100) NOT NULL,
   `note` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`id`, `name`, `contact`, `address`, `note`) VALUES
-(1, 'John', '09876543210', 'New York', 'None');
 
 -- --------------------------------------------------------
 
@@ -84,23 +77,9 @@ CREATE TABLE `orders` (
   `bottles` varchar(100) NOT NULL,
   `receivecall` varchar(100) NOT NULL,
   `mop` text NOT NULL,
-  `note` varchar(100) NOT NULL
+  `note` varchar(100) NOT NULL,
+  `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `name`, `fbname`, `concern`, `question`, `phone`, `extraphone`, `address`, `landmark`, `province`, `city`, `barangay`, `bottles`, `receivecall`, `mop`, `note`) VALUES
-(1, 'DSFGSFGDSF', 'SGSFH', '123123', 'Matagal na', 123123, 123123, 'asASasAS', 'ASasAS', 'ASasASas', 'asASas', 'asASsAS', 'C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spr', 'Morning (8am-11am)', '', 'ASasAS'),
-(2, 'ASD', 'ASDASD', '123', 'Matagal na', 3241, 34, '234', 'ASasAS', 'ASasASas', 'asASas', 'asASsAS', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'CASH ON DELIVERY', 'SDF'),
-(3, 'Carl Doe', 'ASDAS', 'ASD', 'Matagal na', 123123, 123, 'Blk 17 lot 4', '123', '123', 'Chicago', '123', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'GCASH (09656526461)', '123'),
-(4, 'Carl Doe', 'SGSFH', '123123', 'Matagal na', 123, 123, 'Blk 17 lot 4', 'SDFAS', '123', 'Chicago', 'ASDF', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'on', 'FASFASDF'),
-(5, 'sadaa', 'sd', 'asd', 'Matagal na', 123123, 123, 'sdvasv', 'ASasAS', 'ASasASas', 'asASas', '312vssav', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'CASH ON DELIVERY', 'savv'),
-(6, 'Carl Doe', 'ASDASD', '123123', 'Matagal na', 123123, 123123, 'Blk 17 lot 4', 'SDFAS', '123', 'Chicago', 'asASsAS', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'CASH ON DELIVERY', 'afafasfd'),
-(7, 'Carl Doe', 'ASDASD', 'ASD', 'Matagal na', 123123, 123123, 'Blk 17 lot 4', 'ASasAS', '123', 'Chicago', 'asASsAS', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'IMG-61c01df51f8f50.73270085.png', 'asdasdas'),
-(8, 'Carl Doe', 'ASDASD', 'ASD', 'Matagal na', 123123, 123123, 'Blk 17 lot 4', 'ASasAS', '123', 'Chicago', 'ASDF', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'IMG-61c01e5b399b93.75716520.png', 'asdasdasd'),
-(9, 'andrei adi', 'SGSFH', 'ASD', 'Matagal na', 123123, 123123, 'Blk 17 lot 4', 'SDFAS', 'ASasASas', 'Chicago', 'asASsAS', 'A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.', 'Morning (8am-11am)', 'IMG-61c01ec49d20f0.06750545.png', 'svasv');
 
 -- --------------------------------------------------------
 
@@ -116,17 +95,20 @@ CREATE TABLE `products` (
   `purchase` int(11) NOT NULL,
   `retail` int(11) NOT NULL,
   `supplier` varchar(100) NOT NULL,
-  `img_url` text NOT NULL,
-  `signal` int(11) NOT NULL
+  `img_url` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `products`
+-- Table structure for table `requested`
 --
 
-INSERT INTO `products` (`id`, `category`, `name`, `quantity`, `purchase`, `retail`, `supplier`, `img_url`, `signal`) VALUES
-(1, 'Health and Wellness', 'milktea', 85, 20, 30, 'Mangboks Betamax', 'IMG-61b963bce0d3f5.43008005.jpg', 0),
-(2, 'Health and Wellness', 'Coffee', 31, 100, 110, 'Mangboks Betamax', 'IMG-61b983d45ce753.90160732.jpg', 0);
+CREATE TABLE `requested` (
+  `id` int(11) NOT NULL,
+  `products` varchar(50) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -137,43 +119,16 @@ INSERT INTO `products` (`id`, `category`, `name`, `quantity`, `purchase`, `retai
 CREATE TABLE `sales` (
   `id` int(11) NOT NULL,
   `dates` date NOT NULL,
-  `customers` varchar(100) NOT NULL,
-  `category` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `customers` varchar(50) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `amnt` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `total` int(11) NOT NULL,
   `profit` int(11) NOT NULL,
   `tendered` int(11) NOT NULL,
   `changed` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales`
---
-
-INSERT INTO `sales` (`id`, `dates`, `customers`, `category`, `name`, `amnt`, `quantity`, `total`, `profit`, `tendered`, `changed`) VALUES
-(1, '2021-12-15', '', 'Health and Wellness', 'milktea', 30, 10, 300, 100, 300, 0),
-(2, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 20, 600, 200, 1000, 400),
-(3, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 10, 300, 100, 1000, 700),
-(4, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 10, 0, 0, 1000, 0),
-(5, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 10, 300, 100, 1000, 700),
-(6, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 10, 300, 100, 1000, 700),
-(7, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 1, 30, 10, 100, 70),
-(8, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 1, 0, 0, 100, 0),
-(9, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 20, 600, 200, 1000, 400),
-(10, '2021-12-15', 'John', 'Health and Wellness', 'milktea', 30, 8, 240, 80, 500, 260),
-(11, '2021-12-15', 'John', 'Health and Wellness', 'Coffee', 110, 10, 1100, 100, 2000, 900),
-(12, '2021-12-15', 'John', 'Health and Wellness', 'Coffee', 110, 5, 550, 50, 1000, 450),
-(13, '2021-12-16', 'John', 'Health and Wellness', 'Coffee', 110, 20, 2200, 200, 10000, 7800),
-(14, '2021-12-16', 'John', 'Health and Wellness', 'Coffee', 110, 20, 2200, 200, 10000, 7800),
-(15, '2021-12-16', 'John', 'Health and Wellness', 'milktea', 30, 1, 30, 10, 133, 103),
-(16, '2021-12-16', 'John', 'Health and Wellness', 'Coffee', 110, 12, 1320, 120, 121212, 119892),
-(17, '2021-12-20', 'John', 'Health and Wellness', 'milktea', 30, 12, 360, 120, 1212, 852),
-(18, '2021-12-20', 'John', 'Health and Wellness', 'milktea', 30, 10, 300, 100, 1212, 912),
-(19, '2021-12-20', 'John', 'Health and Wellness', 'Coffee', 110, 1, 110, 10, 1002, 892),
-(20, '2021-12-20', 'John', 'Health and Wellness', 'milktea', 30, 3, 90, 30, 100, 10),
-(21, '2021-12-20', 'John', 'Health and Wellness', 'Coffee', 110, 1, 110, 10, 1212, 1102);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -198,14 +153,6 @@ CREATE TABLE `salesreport` (
   `december` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `salesreport`
---
-
-INSERT INTO `salesreport` (`id`, `nameOfProduct`, `january`, `february`, `march`, `april`, `may`, `june`, `july`, `august`, `september`, `october`, `november`, `december`) VALUES
-(1, 'milktea', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 54),
-(2, 'Coffee', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 69);
-
 -- --------------------------------------------------------
 
 --
@@ -220,14 +167,6 @@ CREATE TABLE `salesreport1` (
   `week3` int(11) NOT NULL,
   `week4` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `salesreport1`
---
-
-INSERT INTO `salesreport1` (`id`, `nameOfProduct`, `week1`, `week2`, `week3`, `week4`) VALUES
-(1, 'milktea', 3, 0, 0, 0),
-(2, 'Coffee', 2, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -246,14 +185,6 @@ CREATE TABLE `salesreport2` (
   `saturday` int(11) NOT NULL,
   `sunday` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `salesreport2`
---
-
-INSERT INTO `salesreport2` (`id`, `nameOfProduct`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`) VALUES
-(1, 'milktea', 3, 0, 0, 0, 0, 0, 0),
-(2, 'Coffee', 1, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -320,6 +251,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`,`category`);
 
 --
+-- Indexes for table `requested`
+--
+ALTER TABLE `requested`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sales`
 --
 ALTER TABLE `sales`
@@ -363,7 +300,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `dayspass`
@@ -375,49 +312,55 @@ ALTER TABLE `dayspass`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `requested`
+--
+ALTER TABLE `requested`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `salesreport`
 --
 ALTER TABLE `salesreport`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `salesreport1`
 --
 ALTER TABLE `salesreport1`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `salesreport2`
 --
 ALTER TABLE `salesreport2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

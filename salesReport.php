@@ -93,7 +93,7 @@
     }
     $(document).ready(function() {
       $.ajax({
-        url: "http://localhost/Projects/capstone-main/data.php",
+        url: "http://localhost/New POSsystem/capstone/data.php",
         type: "GET",
         success: function(datas) {
           myObject = JSON.parse(datas);
@@ -154,7 +154,7 @@
     });
     $(document).ready(function() {
       $.ajax({
-        url: "http://localhost/Projects/capstone-main/data2.php",
+        url: "http://localhost/New POSsystem/capstone/data2.php",
         type: "GET",
         success: function(datas) {
           myObject = JSON.parse(datas);
@@ -205,7 +205,7 @@
     });
     $(document).ready(function() {
       $.ajax({
-        url: "http://localhost/Projects/capstone-main/data3.php",
+        url: "http://localhost/New POSsystem/capstone/data3.php",
         type: "GET",
         success: function(datas) {
           myObject = JSON.parse(datas);
