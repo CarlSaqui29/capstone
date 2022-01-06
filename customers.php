@@ -164,7 +164,7 @@
             </div>
             <div class="mb-3 mt-3">
               <label for="formGroupExampleInput2" class="form-label">Access</label>
-              <select name="access" id="" class="form-control">
+              <select name="access" id="" class="form-select">
                 <option value="Admin">Admin</option>
                 <option value="Salesperson">Salesperson</option>
               </select>

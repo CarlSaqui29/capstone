@@ -186,10 +186,6 @@
                             <div class="input-group-text">Change</div>
                             <input type="number" name="change" id="change<?php echo $row['id']; ?>" class="form-control" placeholder="0" readonly style="background-color: #fff;">
                           </div>
-                          <div class="input-group mt-2">
-                            <div class="input-group-text">Tracking No.</div>
-                            <input type="text" name="tn" id="tn<?php echo $row['id']; ?>" class="form-control" placeholder="..." required>
-                          </div>
                           <div class="col-md-12 mt-4 mb-2" style="text-align: right;">
                             <button type="submit" name="submitSalespersonForm" class="btn btn-primary">Add Form</button>
                             <button class="btn btn-secondary" onclick="clearr(<?php echo $row['id']; ?>)">Clear</button>

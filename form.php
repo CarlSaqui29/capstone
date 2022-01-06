@@ -67,14 +67,28 @@
                     </div>
                     <br>
                     <div class="form-group col">
+                        <label for="">Select a Product</label>
+                        <select name="products" class="form-select" id="prod">
+                              <?php
+                              require('config.php');
+                              $queryy = "SELECT * FROM products";
+                              $resultt = mysqli_query($db_link, $queryy);
+                              while ($roww = mysqli_fetch_array($resultt)) {
+                                if ($roww['name'] != $row['name']) { ?>
+                                  <option><?php echo $roww['name']; ?></option>
+                              <?php
+                                };
+                              }; ?>
+                        </select>
+                        <br>
                         <label for="">How many bottles po?</label>
                         <p>Avail na po sila ng 2-3 bottles promos para masulit ang free shipping po natin. 1075 pesos lang po pumapatak kada isang bottle kapag 2 bottles promo save up to 801 pesos kapag 2 bottles promo po pero kapag 3 bottles promo naman po pumapatak 1000 pesos each bottle lang po save up to 1201 pesos kapag 3 bottles promo po ang inavail nila.</p>
                         <p></p>
-                        <input type="radio" name="bottles" value="P1,135 ONLY! FREE Shipping."> A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.
+                        <input type="radio" name="bottles" value="1"> A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.
                         <br>
-                        <input type="radio" name="bottles" value="P1,900 FREE Shipping + FREE one Alcohol with Spray bottle."> B.) BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle.
+                        <input type="radio" name="bottles" value="2"> B.) BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle.
                         <br>
-                        <input type="radio" name="bottles" value="P2,700 FREE Shipping + FREE one Alcohol with Spray bottle."> C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle.
+                        <input type="radio" name="bottles" value="3"> C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle.
                     </div>
                     <br>
                     <div class="form-group col">
@@ -138,7 +152,7 @@
                     <h5 id="provinces"></h5>
                     <h5 id="citys"></h5>
                     <h5 id="barangays"></h5>
-                    <h5 id="bottles"></h5>
+                    <h5 id="prods"></h5>
                     <h5 id="receive"></h5>
                     <h5 id="mop"></h5>
                     <h5 id="notes"></h5>
@@ -192,6 +206,7 @@
                 province = $('#province').val()
                 city = $('#city').val()
                 barangay = $('#barangay').val()
+                products = $('#prod :selected').val();
                 bottles = $("input[name='bottles']:checked").val();
                 receive = $("input[name='receivecall']:checked").val();
                 mop = $("input[name='mop']:checked").val();
@@ -209,6 +224,7 @@
                 console.log(province);
                 console.log(city);
                 console.log(barangay);
+                console.log(products);
                 console.log(bottles);
                 console.log(receive);
                 console.log(mop);
@@ -232,7 +248,7 @@
                 document.getElementById('provinces').innerHTML = "Province:" + " " + province;
                 document.getElementById('citys').innerHTML = "City:" + " " + city;
                 document.getElementById('barangays').innerHTML = "Barangay:" + " " + barangay;
-                document.getElementById('bottles').innerHTML = "Bottles:" + " " + bottles;
+                document.getElementById('prods').innerHTML = "Products:" + " " + products;
                 document.getElementById('receive').innerHTML = "Receive:" + " " + receive;
                 document.getElementById('mop').innerHTML = "Mode of Payment:" + " " + mop;
                 document.getElementById('notes').innerHTML = "Note:" + " " + note;
@@ -258,7 +274,7 @@
                 province = $('#province').val()
                 city = $('#city').val()
                 barangay = $('#barangay').val()
-                bottles = $("input[name='bottles']:checked").val();
+                products = $('#prod :selected').val();
                 receive = $("input[name='receivecall']:checked").val();
                 mop = $("input[name='mop']:checked").val();
                 note = $('#note').val()
@@ -275,7 +291,7 @@
                 doc.text(20, 120, "PROVINCE: " + province);
                 doc.text(20, 130, "CITY: " + city);
                 doc.text(20, 140, "BARANGAY: " + barangay);
-                doc.text(20, 150, "ORDER: " + bottles);
+                doc.text(20, 150, "PRODUCT: " + products)
                 doc.text(20, 160, "RECEIVE CALL: " + receive);
                 doc.text(20, 170, "MODE OF PAYMENT: " + mop);
                 doc.text(20, 180, "NOTE: " + note);

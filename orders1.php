@@ -29,125 +29,108 @@
   </nav>
  </div>
 
- <!--Container Main start-->
- <div class="height-100">
-  <div class="row">
-   <div class="col-md">
-    <h1><b>CV-GFOXX Orders <i class='bx bx-box'></i></b></h1>
-    <?php $date = new DateTime("now", new DateTimeZone('Asia/Manila')); ?>
-    <p>Today is <?php echo $date->format('l jS \of F Y'); ?></p>
-   </div>
-   <div class="col-md clock">
-    <span id="LiveTime" class="badge bg-warning text-dark" style="font-size: 20px;"></span>
-   </div>
-  </div>
+  <!--Container Main start-->
+  <div class="height-100">
+    <div class="row">
+      <div class="col-md">
+        <h1><b>CV-GFOXX Orders <i class='bx bx-box'></i></b></h1>
+        <?php $date = new DateTime("now", new DateTimeZone('Asia/Manila')); ?>
+        <p>Today is <?php echo $date->format('l jS \of F Y'); ?></p>
+      </div>
+      <div class="col-md clock">
+        <span id="LiveTime" class="badge bg-warning text-dark" style="font-size: 20px;"></span>
+      </div>
+    </div>
 
-   <!-- table sales -->
-   <div class="mt-5">
-   <div class="row">
-    <div class="col-lg-7">
-     <h4 class="mt-1 mb-1">Orders Table</h4>
+    <!-- table sales -->
+    <div class="mt-5">
+      <div class="row">
+        <div class="col-lg-7">
+          <h4 class="mt-1 mb-1">Orders Table</h4>
+        </div>
+        <div class="col-lg-5" style="display: inline-flex;">
+          <input type="text" class="form-control" id="searchOrders" onkeyup="searchOrders()" placeholder="Search orders...">
+          <span class="input-group-text bg-primary text-white"><i class='bx bx-search-alt-2 nav_logo-icon'></i></span>
+        </div>
+      </div>
+      <br>
+      <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
+      <select class="btn btn-success" id="filter_" onchange="getItems(this.value)">
+        <option value="" selected>All</option>
+        <option value="NEW">NEW</option>
+        <option value="CONFIRMED">CONFIRMED</option>
+        <option value="PAID">PAID</option>
+        <option value="SHIPPED">SHIPPED</option>
+        <option value="DELIVERED">DELIVERED</option>
+        <option value="RETURNED">RETURNED</option>
+      </select>
+      <div class="tableData overflow-auto">
+        <table class="table mt-4 table-hover" id="orb">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Bottles</th>
+              <th scope="col">Receive Call</th>
+              <th scope="col">MOP</th>
+              <th scope="col">IMAGE</th>
+              <th scope="col">Note</th>
+              <th scope="col">Status</th>
+              <th scope="col">Edit Status</th>
+              <th scope="col">Submit Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            require('config.php');
+            $query = "SELECT * FROM orders";
+            $result = mysqli_query($db_link, $query);
+            while ($row = mysqli_fetch_array($result)) {
+            ?>
+              <tr>
+                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['bottles']; ?></td>
+                <td><?php echo $row['receivecall']; ?></td>
+                <td><?php echo $row['mop']; ?></td>
+                <?php
+                $str = $row['mop'];
+                $getStr = explode(" ", $str)[2];
+                ?>
+                <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
+                <td><?php echo $row['note']; ?></td>
+                <form action="functions.php" method="POST">
+                  <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                  <td>
+                    <?php echo $row['status']; ?>
+                  </td>
+                  <td>
+                    <select class="btn btn-secondary" name="stats" id="">
+                      <option value="" disabled selected><?php echo $row['status']; ?></option>
+                      <option value="NEW">NEW</option>
+                      <option value="CONFIRMED">CONFIRMED</option>
+                      <option value="PAID">PAID</option>
+                      <option value="SHIPPED">SHIPPED</option>
+                      <option value="DELIVERED">DELIVERED</option>
+                      <option value="RETURNED">RETURNED</option>
+                    </select>
+                  </td>
+                  <td><button type="submit" class="btn btn-success" name="updtStatSP">Update</button></td>
+                </form>
+              </tr>
+            <?php
+            } ?>
+          </tbody>
+        </table>
+      </div>
+      <div class="no-result-div mt-4 text-center" id="no-search">
+        <div class="div">
+          <img src="images/search.svg" alt="">
+          <h4 class="mt-3">Search not found...</h4>
+          <p>Search for names, prices, category, supplier and etc.</p>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-5" style="display: inline-flex;">
-     <input type="text" class="form-control" id="searchOrders" onkeyup="searchOrders()" placeholder="Search orders...">
-     <span class="input-group-text bg-primary text-white"><i class='bx bx-search-alt-2 nav_logo-icon'></i></span>
-    </div>
-   </div>
-   <br>
-   <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
-   <select class="btn btn-success" id="filter_" onchange="getItems(this.value)"> 
-      <option disabled selected>All</option>
-      <option value="NEW">NEW</option>
-      <option value="CONFIRMED">CONFIRMED</option>
-      <option value="PAID">PAID</option>
-      <option value="SHIPPED">SHIPPED</option>
-      <option value="DELIVERED">DELIVERED</option>
-      <option value="RETURNED">RETURNED</option>
-   </select>
-   <div class="tableData overflow-auto">
-    <table class="table mt-4 table-hover" id="myTableOrders">
-     <thead class="table-dark">
-      <tr>
-       <th scope="col">Name</th>
-       <th scope="col">FB Name</th>
-       <th scope="col">Concern</th>
-       <th scope="col">Question</th>
-       <th scope="col">Mobile #</th>
-       <th scope="col">Other Mobile #</th>
-       <th scope="col">Address</th>
-       <th scope="col">Landmark</th>
-       <th scope="col">Province</th>
-       <th scope="col">City</th>
-       <th scope="col">Barangay</th>
-       <th scope="col">Bottles</th>
-       <th scope="col">Receive Call</th>
-       <th scope="col">MOP</th>
-       <th scope="col">IMAGE</th>
-       <th scope="col">Note</th>
-       <th scope="col">Status</th>
-       <th scope="col">Submit Status</th>
-      </tr>
-     </thead>
-     <tbody>
-     <?php
-      require('config.php');
-      $query = "SELECT * FROM orders";
-      $result = mysqli_query($db_link, $query);
-      while ($row = mysqli_fetch_array($result)) {
-      ?>
-      <tr>
-       <td><?php echo $row['name']; ?></td>
-       <td><?php echo $row['fbname']; ?></td>
-       <td><?php echo $row['concern']; ?></td>
-       <td><?php echo $row['question']; ?></td>
-       <td><?php echo $row['phone']; ?></td>
-       <td><?php echo $row['extraphone']; ?></td>
-       <td><?php echo $row['address']; ?></td>
-       <td><?php echo $row['landmark']; ?></td>
-       <td><?php echo $row['province']; ?></td>
-       <td><?php echo $row['city']; ?></td>
-       <td><?php echo $row['barangay']; ?></td>
-       <td><?php echo $row['bottles']; ?></td>
-       <td><?php echo $row['receivecall']; ?></td>
-       <td><?php echo $row['mop']; ?></td>
-       <?php 
-       $str = $row['mop'];
-       $getStr = explode(" ",$str)[2];    
-       ?>
-       <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
-       <td><?php echo $row['note']; ?></td>
-       <form action="functions.php" method="POST">
-       <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-        <td>
-            <select class="btn btn-secondary" name="stats" id="">
-            <option value="" disabled selected><?php echo $row['status'];?></option>
-                <option value="NEW">NEW</option>
-                <option value="CONFIRMED">CONFIRMED</option>
-                <option value="PAID">PAID</option>
-                <option value="SHIPPED">SHIPPED</option>
-                <option value="DELIVERED">DELIVERED</option>
-                <option value="RETURNED">RETURNED</option>
-            </select>
-        </td>
-        <td><button type="submit" class="btn btn-success" name="updtStatSP">Update</button></td>
-       </form>
-      </tr>
-      <?php
-      } ?>
-     </tbody>
-    </table>
-   </div>
-   <div class="no-result-div mt-4 text-center" id="no-search">
-    <div class="div">
-     <img src="images/search.svg" alt="">
-     <h4 class="mt-3">Search not found...</h4>
-     <p>Search for names, prices, category, supplier and etc.</p>
-    </div>
-   </div>
   </div>
- </div>
- </div>
-
+  </div>
 
 
   <!-- image modal -->

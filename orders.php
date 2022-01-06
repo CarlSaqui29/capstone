@@ -60,6 +60,7 @@
       </div>
       <br>
       <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
+      <h6>*Tracking Number is for shipped status only*</h6>
       <select class="btn btn-success" id="filter_" onchange="getItems(this.value)">
         <option value="" selected>All</option>
         <option value="NEW">NEW</option>
@@ -74,23 +75,17 @@
           <thead class="table-dark">
             <tr>
               <th scope="col">Name</th>
-              <!-- <th scope="col">FB Name</th>
-              <th scope="col">Concern</th>
-              <th scope="col">Question</th>
-              <th scope="col">Mobile #</th>
-              <th scope="col">Other Mobile #</th>
-              <th scope="col">Landmark</th>
-              <th scope="col">Province</th>
-              <th scope="col">City</th>
-              <th scope="col">Barangay</th> -->
-              <th scope="col">Bottles</th>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
               <th scope="col">Receive Call</th>
               <th scope="col">MOP</th>
               <th scope="col">IMAGE</th>
               <th scope="col">Note</th>
               <th scope="col">Status</th>
+              <th scopr="col">Tracking Number</th>
               <th scope="col">Edit Status</th>
               <th scope="col">Submit Status</th>
+              <th scope="col">Add Tracking Number</th>
             </tr>
           </thead>
           <tbody>
@@ -102,6 +97,7 @@
             ?>
               <tr>
                 <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['products']?></td>
                 <td><?php echo $row['bottles']; ?></td>
                 <td><?php echo $row['receivecall']; ?></td>
                 <td><?php echo $row['mop']; ?></td>
@@ -116,6 +112,7 @@
                   <td>
                     <?php echo $row['status']; ?>
                   </td>
+                  <td><?php echo $row['trackno']; ?></td>
                   <td>
                     <select class="btn btn-secondary" name="stats" id="">
                       <option value="" disabled selected><?php echo $row['status']; ?></option>
@@ -128,7 +125,27 @@
                     </select>
                   </td>
                   <td><button type="submit" class="btn btn-success" name="updtStat">Update</button></td>
-                </form>
+                  </form>
+                  <td>
+                    <form action="functions.php" method="POST">
+                      <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <?php
+                      $querys = "SELECT * FROM products";
+                      $results = mysqli_query($db_link, $querys);
+                      while ($rows = mysqli_fetch_array($results)){
+                      ?>
+                      <input type="hidden" name="curQty" value="<?php echo $rows['quantity'];?>">
+                      <?php
+                      }
+                      ?>
+                      <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
+                      <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
+                      <input type="hidden" name="stats" value="<?php echo $row['status']; ?>">
+                      <input type="number" class="form-control" name="trackno" required>
+                      <button class="btn btn-primary form-control" type="submit" name="addTrackno">Add</button>
+                    </form>
+                  </td>
+              
               </tr>
             <?php
             } ?>

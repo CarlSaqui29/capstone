@@ -73,7 +73,35 @@ if (isset($_POST['submitSalespersonForm'])) {
     // newQty deduction for pick order
     $newQty = $curQty - $qty;
     $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-   
+    
+    // update the data qty regards to date(month) in salesreport
+    $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
+    $month = $date->format('F');
+    $month = strtolower($month);
+    $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
+    $row = mysqli_fetch_array($r);
+    $currentval = $row[$month];
+    $totals = (int)$currentval + (int)$qty;
+    $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+
+    // update the quantity regards by day
+    $day = $date->format('l');
+    $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
+    $row = mysqli_fetch_array($r);
+    $currentval = $row[$day];
+    $totals = (int)$currentval + (int)$qty;
+    $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
+
+    $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
+    $row1 = mysqli_fetch_array($r1);
+    $week = $row1['week'];
+    $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
+    $itemrow = mysqli_fetch_array($item);
+    $whatweek = 'week' . $week;
+    $val = $itemrow[$whatweek];
+    $totals = (int)$val + (int)$qty;
+    $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
+
     #update products table
     $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
     header("Location: sales1.php");
@@ -173,14 +201,14 @@ if (isset($_GET['deleteSupplier'])) {
 
 // CUSTOMERS PAGE
 // add customer
-if (isset($_POST['addCustomer'])) {
- $customerName = $_POST['customerName'];
- $customerContact = $_POST['customerContact'];
- $customerAddress = $_POST['customerAddress'];
- $customerNote = $_POST['customerNote'];
- $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$customerName', '$customerContact', '$customerAddress', '$customerNote')") or die($db_link->error);
- header("Location: customers.php");
-}
+// if (isset($_POST['addCustomer'])) {
+//  $customerName = $_POST['customerName'];
+//  $customerContact = $_POST['customerContact'];
+//  $customerAddress = $_POST['customerAddress'];
+//  $customerNote = $_POST['customerNote'];
+//  $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$customerName', '$customerContact', '$customerAddress', '$customerNote')") or die($db_link->error);
+//  header("Location: customers.php");
+// }
 
 // delete
 if (isset($_GET['deleteCustomer'])) {
@@ -205,6 +233,7 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     $province = $_POST['province'];
     $city = $_POST['city'];
     $barangay = $_POST['barangay'];
+    $product = $_POST['products'];
     $bottles = $_POST['bottles'];
     $receivecall = $_POST['receivecall'];
     $noteforDelivery = $_POST['noteforDelivery'];
@@ -220,7 +249,7 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
 
     if ($mop == 'CASH ON DELIVERY') {
         $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
+        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
         echo "<script>alert('Successfully Submitted your Order')</script>";
         header("Location: form.php");
     }else{
@@ -240,7 +269,7 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
             $img_upload_path = 'screenshots/' . $new_img_name;
             move_uploaded_file($tmp_name, $img_upload_path);
             $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
             echo "<script>alert('Successfully Submitted your Order')</script>";
             header("Location: form.php");
         }
@@ -489,6 +518,74 @@ if (isset($_POST['addUser'])) {
                     window.location.href = "customers.php";
                     }else{
                         window.location.href = "customers.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+}
+
+
+//ADD TRACKING NUMBER ADMIN
+if (isset($_POST['addTrackno'])) {
+    $id = $_POST['id'];
+    $status = $_POST['stats'];
+    $products = $_POST['prods'];
+    $currentQuants = $_POST['curQty'];
+    $quantsNow = $_POST['quan'];
+    $trackingno = $_POST['trackno'];
+    
+    $totalQuants = $currentQuants - $quantsNow;
+    // echo($quantsNow);
+    // echo($currentQuants);
+    echo($totalQuants);
+
+    if ($status == "SHIPPED"){
+        $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
+        // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
+        $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE id='$id'") or die($db_link->error);
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'success',
+                title: 'Successfully added the Tracking Number',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "orders.php";
+                    }else{
+                        window.location.href = "orders.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }else{?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'warning',
+                title: 'This is for shipped products only',
+                text: 'Kindly check the status of the customer',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "orders.php";
+                    }else{
+                        window.location.href = "orders.php";
                     }
                 })
                 
