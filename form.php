@@ -32,7 +32,7 @@
                     <br>
                     <div class="form-group col">
                         <label for="question">Matagal na po ba or bago pa lang ang kanilang health concern?</label>
-                        <select id="questions" name="question" class="form-control">
+                        <select id="questions" name="question" class="form-select">
                             <option>Matagal na</option>
                             <option>Bago pa lang</option>
                         </select>

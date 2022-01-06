@@ -325,7 +325,19 @@ if (isset($_POST['orderConfirm'])) {
 if (isset($_POST['updtStat'])) {
     $id = $_POST['id'];
     $gets = $_POST['stats'];
+    $curQuants = $_POST['quan'];
+    $products = $_POST['prods'];
+
+    $checking = "SELECT * FROM products WHERE name='$products'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+    $getData = mysqli_fetch_array($prompt);
     
+    $proQuants  = $getData['quantity'];
+    $productName = $getData['name'];
+
+    $totsQuants = $proQuants + $curQuants;
+
     if ($gets == ""){
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -349,7 +361,33 @@ if (isset($_POST['updtStat'])) {
         
             </script>
             <?php
-    }else{
+    }else if ($gets == "RETURNED"){
+        $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE products SET quantity='$totsQuants' WHERE name='$products'") or die($db_link->error);
+        ?>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    Swal.fire({
+                    title: 'Successfully Updated',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Okay'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "orders.php";
+                        }else{
+                            window.location.href = "orders.php";
+                        }
+                    })
+                    
+                })
+        
+            </script>
+        <?php
+    }
+    else{
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -534,19 +572,26 @@ if (isset($_POST['addTrackno'])) {
     $id = $_POST['id'];
     $status = $_POST['stats'];
     $products = $_POST['prods'];
-    $currentQuants = $_POST['curQty'];
     $quantsNow = $_POST['quan'];
     $trackingno = $_POST['trackno'];
     
+
+    $checking = "SELECT * FROM products WHERE name='$products'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+    $getData = mysqli_fetch_array($prompt);
+
+    $currentQuants = $getData['quantity'];
+    $productName = $getData['name'];
+ 
     $totalQuants = $currentQuants - $quantsNow;
     // echo($quantsNow);
     // echo($currentQuants);
-    echo($totalQuants);
 
     if ($status == "SHIPPED"){
         $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
         // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-        $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE id='$id'") or die($db_link->error);
+        $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE name='$productName'") or die($db_link->error);
         ?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

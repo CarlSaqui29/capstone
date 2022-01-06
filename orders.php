@@ -109,6 +109,17 @@
                 <td><?php echo $row['note']; ?></td>
                 <form action="functions.php" method="POST">
                   <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                  <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
+                  <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
+                  <?php
+                      $querys = "SELECT * FROM products";
+                      $results = mysqli_query($db_link, $querys);
+                      while ($rows = mysqli_fetch_array($results)){
+                      ?>
+                      <input type="hidden" name="curQty" value="<?php echo $rows['quantity'];?>">
+                      <?php
+                      }
+                    ?>
                   <td>
                     <?php echo $row['status']; ?>
                   </td>
@@ -129,15 +140,6 @@
                   <td>
                     <form action="functions.php" method="POST">
                       <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                      <?php
-                      $querys = "SELECT * FROM products";
-                      $results = mysqli_query($db_link, $querys);
-                      while ($rows = mysqli_fetch_array($results)){
-                      ?>
-                      <input type="hidden" name="curQty" value="<?php echo $rows['quantity'];?>">
-                      <?php
-                      }
-                      ?>
                       <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
                       <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
                       <input type="hidden" name="stats" value="<?php echo $row['status']; ?>">
