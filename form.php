@@ -145,7 +145,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="receipt">Download Receipt</button>
-                    <button type="submit" class="btn btn-primary" id="sub" name="submitOrderForm-M">Submit Order</button>
+                    <button type="submit" class="btn btn-primary" id="sub" name="submitOrderForm">Submit Order</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>

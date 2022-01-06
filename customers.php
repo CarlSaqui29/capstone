@@ -68,8 +68,6 @@
        <th scope="col">Question</th>
        <th scope="col">Mobile #</th>
        <th scope="col">Other Mobile #</th>
-       <th scope="col">Landmark</th>
-       <th scope="col">Contact</th>
        <th scope="col">Address</th>
        <th scope="col">Note</th>
        <th scope="col">Action</th>
@@ -78,7 +76,7 @@
      <tbody>
       <?php
       require('config.php');
-      $query = "SELECT * FROM orders";
+      $query = "SELECT * FROM customers";
       $result = mysqli_query($db_link, $query);
       while ($row = mysqli_fetch_array($result)) {
       ?>
@@ -89,8 +87,6 @@
         <td><?php echo $row['question']; ?></td>
         <td><?php echo $row['phone']; ?></td>
         <td><?php echo $row['extraphone']; ?></td>
-        <td><?php echo $row['landmark']; ?></td>
-        <td><?php echo $row['phone']; ?></td>
         <td><?php echo $row['address']; ?></td>
         <td><?php echo $row['note']; ?></td>
         <td><a type="button" class="btn btn-sm btn-danger" href="functions.php?deleteCustomer=<?php echo $row["id"] ?>">Delete</a></td>

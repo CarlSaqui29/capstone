@@ -102,21 +102,12 @@
             ?>
               <tr>
                 <td><?php echo $row['name']; ?></td>
-                <!-- <td><?php echo $row['fbname']; ?></td>
-                <td><?php echo $row['concern']; ?></td>
-                <td><?php echo $row['question']; ?></td>
-                <td><?php echo $row['phone']; ?></td>
-                <td><?php echo $row['extraphone']; ?></td>
-                <td><?php echo $row['landmark']; ?></td>
-                <td><?php echo $row['province']; ?></td>
-                <td><?php echo $row['city']; ?></td>
-                <td><?php echo $row['barangay']; ?></td> -->
                 <td><?php echo $row['bottles']; ?></td>
                 <td><?php echo $row['receivecall']; ?></td>
                 <td><?php echo $row['mop']; ?></td>
                 <?php
                 $str = $row['mop'];
-                $getStr = explode(" ", $str)[0];
+                $getStr = explode(" ", $str)[2];
                 ?>
                 <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
                 <td><?php echo $row['note']; ?></td>

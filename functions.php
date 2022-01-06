@@ -193,7 +193,7 @@ if (isset($_GET['deleteCustomer'])) {
 
 // FORM PAGE
 //add orders
-if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
+if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     $name = $_POST['name'];
     $fbname = $_POST['fbname'];
     $concern = $_POST['concern'];
@@ -219,10 +219,10 @@ if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
     // header("Location: form.php");
 
     if ($mop == 'CASH ON DELIVERY') {
-        $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$name', '$number', '$address', '$noteforDelivery')") or die($db_link->error);
+        $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
         $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
         echo "<script>alert('Successfully Submitted your Order')</script>";
-        header("Location: form-w.php");
+        header("Location: form.php");
     }else{
         $ig = $_POST['payment1'];
         // img validation
@@ -239,10 +239,10 @@ if (isset($_POST['submitOrderForm-M'])  && isset($_FILES['payment1'])) {
             $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
             $img_upload_path = 'screenshots/' . $new_img_name;
             move_uploaded_file($tmp_name, $img_upload_path);
-            $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$name', '$number', '$address', '$noteforDelivery')") or die($db_link->error);
+            $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
             $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
             echo "<script>alert('Successfully Submitted your Order')</script>";
-            header("Location: form-m.php");
+            header("Location: form.php");
         }
     }
   

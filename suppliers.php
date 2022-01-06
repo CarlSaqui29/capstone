@@ -85,9 +85,25 @@
         <td><?php echo $row['note']; ?></td>
         <td>
          <button type="button" data-bs-toggle="modal" data-bs-target="#edit<?php echo $row['id']; ?>" class="btn btn-sm btn-warning">Edit</button>
-         <a type="button" class="btn btn-sm btn-danger" href="functions.php?deleteSupplier=<?php echo $row["id"] ?>">Delete</a>
+         <a type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $row['id']; ?>">Delete</a>
         </td>
        </tr>
+
+        <!-- delete modal -->
+        <div class="modal fade" id="delete<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Are sure you want to delete?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-success" href="functions.php?deleteSupplier=<?php echo $row["id"] ?>">YES</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
        <!--edit Form Modal -->
        <div class="modal fade" id="edit<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
