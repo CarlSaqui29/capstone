@@ -590,7 +590,7 @@ if (isset($_POST['addTrackno'])) {
 
     if ($status == "SHIPPED"){
         $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
-        // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
+        // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$currentDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE name='$productName'") or die($db_link->error);
         ?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -631,6 +631,82 @@ if (isset($_POST['addTrackno'])) {
                     window.location.href = "orders.php";
                     }else{
                         window.location.href = "orders.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+}
+
+
+
+//ADD TRACKING NUMBER SALESPERSON
+if (isset($_POST['addTracknoSP'])) {
+    $id = $_POST['id'];
+    $status = $_POST['stats'];
+    $products = $_POST['prods'];
+    $quantsNow = $_POST['quan'];
+    $trackingno = $_POST['trackno'];
+    
+
+    $checking = "SELECT * FROM products WHERE name='$products'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+    $getData = mysqli_fetch_array($prompt);
+
+    $currentQuants = $getData['quantity'];
+    $productName = $getData['name'];
+ 
+    $totalQuants = $currentQuants - $quantsNow;
+    // echo($quantsNow);
+    // echo($currentQuants);
+
+    if ($status == "SHIPPED"){
+        $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
+        // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
+        $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE name='$productName'") or die($db_link->error);
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'success',
+                title: 'Successfully added the Tracking Number',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "orders1.php";
+                    }else{
+                        window.location.href = "orders1.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }else{?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'warning',
+                title: 'This is for shipped products only',
+                text: 'Kindly check the status of the customer',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "orders1.php";
+                    }else{
+                        window.location.href = "orders1.php";
                     }
                 })
                 
