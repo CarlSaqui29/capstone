@@ -20,7 +20,8 @@ if (isset($_POST['submitSaleForm'])) {
     // newQty deduction for pick order
     $newQty = $curQty - $qty;
     $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-
+    // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
+    
     // update the data qty regards to date(month) in salesreport
     $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
     $month = $date->format('F');
@@ -592,6 +593,36 @@ if (isset($_POST['addTrackno'])) {
         $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
         // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$currentDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE name='$productName'") or die($db_link->error);
+
+        // update the data qty regards to date(month) in salesreport
+        $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
+        $month = $date->format('F');
+        $month = strtolower($month);
+        $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
+        $row = mysqli_fetch_array($r);
+        $currentval = $row[$month];
+        $totals = (int)$currentval + (int)$quantsNow;
+        $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+
+        // update the quantity regards by day
+        $day = $date->format('l');
+        $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
+        $row = mysqli_fetch_array($r);
+        $convertDay = strtolower($day);
+        $currentval = $row[$convertDay];
+        $totals = (int)$currentval + (int)$quantsNow;
+        $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
+
+        $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
+        $row1 = mysqli_fetch_array($r1);
+        $week = $row1['week'];
+        $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
+        $itemrow = mysqli_fetch_array($item);
+        $whatweek = 'week' . $week;
+        $val = $itemrow[$whatweek];
+        $totals = (int)$val + (int)$quantsNow;
+        $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
+        
         ?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
