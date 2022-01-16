@@ -43,7 +43,7 @@ if (isset($_POST['submitSaleForm'])) {
 
     
     $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', '$getLandmark', '$getProvince', '$getCity', '$getBarangay', '$getProduct','$getBottles', '$getCall', 'Pick Order form', '$getNote', 'PAID')") or die($db_link->error);
+    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', '$getLandmark', '$getProvince', '$getCity', '$getBarangay', '$pName','$qty', '$getCall', 'Pick Order form', '$getNote', 'PAID')") or die($db_link->error);
     
     // update the data qty regards to date(month) in salesreport
     $date = new DateTime("now", new DateTimeZone('Asia/Manila'));

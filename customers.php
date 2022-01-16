@@ -53,7 +53,7 @@
      <h4 class="mt-1 mb-1">Customer Information Table</h4>
     </div>
     <div class="col-lg-5" style="display: inline-flex;">
-     <input type="text" class="form-control" id="searchCustomer" onkeyup="search(3)" placeholder="Search product...">
+     <input type="text" class="form-control" id="searchCustomer" onkeyup="search(3)" placeholder="Search...">
      <span class="input-group-text bg-primary text-white"><i class='bx bx-search-alt-2 nav_logo-icon'></i></span>
     </div>
    </div>

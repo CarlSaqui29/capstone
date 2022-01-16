@@ -230,3 +230,118 @@ a {
     }
   }
 }
+
+.dashboard {
+  .intro-mark {
+    padding: 0px 20px;
+    // padding-top: 20px;
+    border-radius: 20px;
+    background-color: #222222;
+    color: #f7f6fb;
+    img {
+      width: 100%;
+    }
+    a {
+      padding: 15px 25px;
+      text-decoration: none;
+      color: #f7f6fb;
+      background-color: #ffc107;
+      border-radius: 12px;
+      font-size: 18px;
+      display: inline-block;
+      margin-top: 30px;
+      transition: 0.3s;
+      &:hover {
+        transition: 0.3s;
+        background-color: #f7dc6f;
+        color: #222222;
+      }
+    }
+  }
+  .profits {
+    background-color: #ffc107;
+    border-radius: 20px;
+    padding: 30px;
+    p {
+      padding: 20px 30px;
+      background-color: #f7dc6f;
+      box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      margin-top: 30px;
+      font-size: 4vw;
+      font-weight: bolder;
+    }
+  }
+  .box-1 {
+    max-width: 580px;
+    height: 500px;
+    background-color: #222222;
+    border-radius: 20px;
+    padding: 30px;
+    color: #ffc107;
+    .box-1-inner {
+      max-height: 370px;
+      overflow: auto;
+      color: #f7f6fb;
+      margin-top: 20px;
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+      &::-webkit-scrollbar-track {
+        background: #222222;
+        border-radius: 30px;
+        transform: translateX(20px);
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #ffc107;
+        border-radius: 30px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      h4 {
+        margin-left: 10px;
+        span {
+          position: relative;
+          top: 10px;
+          right: 10px;
+        }
+      }
+      p {
+        margin-left: 62px;
+        margin-top: -10px;
+      }
+      .card_ {
+        margin-top: 20px;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 20px;
+        background-color: #555;
+      }
+    }
+  }
+}
+@media (max-width: 1199px) {
+  .dashboard {
+    .box-1 {
+      max-width: 94% !important;
+    }
+    .box-2 {
+      margin-top: 15px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .dashboard {
+    .profits {
+      h1 {
+        font-size: 45px;
+      }
+    }
+    .box-1 {
+      max-width: 100% !important;
+    }
+  }
+}

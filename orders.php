@@ -61,7 +61,7 @@
       <br>
       <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
       <h6>*Tracking Number is for shipped status only*</h6>
-      <select class="btn btn-success" id="filter_" onchange="getItems(this.value)">
+      <select class="btn btn-success" id="filters" onchange="getItems(this.value)">
         <option value="" selected>All</option>
         <option value="NEW">NEW</option>
         <option value="CONFIRMED">CONFIRMED</option>

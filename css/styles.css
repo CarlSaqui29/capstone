@@ -255,4 +255,131 @@ a {
     text-align: right !important;
   }
 }
+
+.dashboard .intro-mark {
+  padding: 0px 20px;
+  border-radius: 20px;
+  background-color: #222222;
+  color: #f7f6fb;
+}
+
+.dashboard .intro-mark img {
+  width: 100%;
+}
+
+.dashboard .intro-mark a {
+  padding: 15px 25px;
+  text-decoration: none;
+  color: #f7f6fb;
+  background-color: #ffc107;
+  border-radius: 12px;
+  font-size: 18px;
+  display: inline-block;
+  margin-top: 30px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.dashboard .intro-mark a:hover {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  background-color: #f7dc6f;
+  color: #222222;
+}
+
+.dashboard .profits {
+  background-color: #ffc107;
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.dashboard .profits p {
+  padding: 20px 30px;
+  background-color: #f7dc6f;
+  -webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard .profits h1 {
+  margin-top: 30px;
+  font-size: 4vw;
+  font-weight: bolder;
+}
+
+.dashboard .box-1 {
+  max-width: 580px;
+  height: 500px;
+  background-color: #222222;
+  border-radius: 20px;
+  padding: 30px;
+  color: #ffc107;
+}
+
+.dashboard .box-1 .box-1-inner {
+  max-height: 370px;
+  overflow: auto;
+  color: #f7f6fb;
+  margin-top: 20px;
+}
+
+.dashboard .box-1 .box-1-inner::-webkit-scrollbar {
+  width: 5px;
+}
+
+.dashboard .box-1 .box-1-inner::-webkit-scrollbar-track {
+  background: #222222;
+  border-radius: 30px;
+  -webkit-transform: translateX(20px);
+          transform: translateX(20px);
+}
+
+.dashboard .box-1 .box-1-inner::-webkit-scrollbar-thumb {
+  background: #ffc107;
+  border-radius: 30px;
+}
+
+.dashboard .box-1 .box-1-inner::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.dashboard .box-1 .box-1-inner h4 {
+  margin-left: 10px;
+}
+
+.dashboard .box-1 .box-1-inner h4 span {
+  position: relative;
+  top: 10px;
+  right: 10px;
+}
+
+.dashboard .box-1 .box-1-inner p {
+  margin-left: 62px;
+  margin-top: -10px;
+}
+
+.dashboard .box-1 .box-1-inner .card_ {
+  margin-top: 20px;
+  padding: 20px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+  background-color: #555;
+}
+
+@media (max-width: 1199px) {
+  .dashboard .box-1 {
+    max-width: 94% !important;
+  }
+  .dashboard .box-2 {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 991px) {
+  .dashboard .profits h1 {
+    font-size: 45px;
+  }
+  .dashboard .box-1 {
+    max-width: 100% !important;
+  }
+}
 /*# sourceMappingURL=styles.css.map */

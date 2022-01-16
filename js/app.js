@@ -182,8 +182,8 @@ function clearCustomerForm() {
 function searchOrders() {
   let rowCountO = 0;
   let inputO, filterO, tableO, trO, i;
-  let tdO0, tdO1, tdO2, tdO3, tdO4, tdO5, tdO6, tdO7, tdO8, tdO9, tdO10, tdO11, tdO12, tdO13, tdO14;
-  let txtValO0, txtValO1, txtValO2, txtValO3, txtValO4, txtValO5, txtValO6, txtValO7, txtValO8, txtValO9, txtValO10, txtValO11, txtValO12, txtValO13, txtValO14;
+  let tdO0, tdO1, tdO2, tdO3, tdO4, tdO5, tdO6, tdO7, tdO8, tdO9, tdO10, tdO11;
+  let txtValO0, txtValO1, txtValO2, txtValO3, txtValO4, txtValO5, txtValO6, txtValO7, txtValO8, txtValO9, txtValO10, txtValO11;
   inputO = $('#searchOrders').val();
   filterO = inputO.toUpperCase();
   tableO = document.getElementById("myTableOrders");
@@ -201,11 +201,8 @@ function searchOrders() {
     tdO9 = trO[i].getElementsByTagName("td")[9];
     tdO10 = trO[i].getElementsByTagName("td")[10];
     tdO11 = trO[i].getElementsByTagName("td")[11];
-    tdO12 = trO[i].getElementsByTagName("td")[12];
-    tdO13 = trO[i].getElementsByTagName("td")[13];
-    tdO14 = trO[i].getElementsByTagName("td")[14];
     
-    if (tdO1 || tdO2 || tdO3 || tdO4 || tdO5 || tdO6 || tdO7 || tdO8 || tdO9 || tdO10 || tdO11 || tdO12 || tdO13 || tdO14) {
+    if (tdO1 || tdO2 || tdO3 || tdO4 || tdO5 || tdO6 || tdO7 || tdO8 || tdO9 || tdO10 || tdO11) {
       txtValO0 = tdO0.textContent || tdO0.innerText;
       txtValO1 = tdO1.textContent || tdO1.innerText;
       txtValO2 = tdO2.textContent || tdO2.innerText;
@@ -218,10 +215,7 @@ function searchOrders() {
       txtValO9 = tdO9.textContent || tdO9.innerText;
       txtValO10 = tdO10.textContent || tdO10.innerText;
       txtValO11 = tdO11.textContent || tdO11.innerText;
-      txtValO12 = tdO12.textContent || tdO12.innerText;
-      txtValO13 = tdO13.textContent || tdO13.innerText;
-      txtValO14 = tdO14.textContent || tdO14.innerText;
-      if (txtValO0.toUpperCase().indexOf(filterO) > -1 || txtValO1.toUpperCase().indexOf(filterO) > -1 || txtValO2.toUpperCase().indexOf(filterO) > -1 || txtValO3.toUpperCase().indexOf(filterO) > -1 || txtValO4.toUpperCase().indexOf(filterO) > -1 || txtValO5.toUpperCase().indexOf(filterO) > -1 || txtValO6.toUpperCase().indexOf(filterO) > -1 || txtValO7.toUpperCase().indexOf(filterO) > -1 || txtValO8.toUpperCase().indexOf(filterO) > -1 || txtValO9.toUpperCase().indexOf(filterO) > -1 || txtValO10.toUpperCase().indexOf(filterO) > -1 || txtValO11.toUpperCase().indexOf(filterO) > -1 || txtValO12.toUpperCase().indexOf(filterO) > -1 || txtValO13.toUpperCase().indexOf(filterO) > -1 || txtValO14.toUpperCase().indexOf(filterO) > -1) {
+      if (txtValO0.toUpperCase().indexOf(filterO) > -1 || txtValO1.toUpperCase().indexOf(filterO) > -1 || txtValO2.toUpperCase().indexOf(filterO) > -1 || txtValO3.toUpperCase().indexOf(filterO) > -1 || txtValO4.toUpperCase().indexOf(filterO) > -1 || txtValO5.toUpperCase().indexOf(filterO) > -1 || txtValO6.toUpperCase().indexOf(filterO) > -1 || txtValO7.toUpperCase().indexOf(filterO) > -1 || txtValO8.toUpperCase().indexOf(filterO) > -1 || txtValO9.toUpperCase().indexOf(filterO) > -1 || txtValO10.toUpperCase().indexOf(filterO) > -1 || txtValO11.toUpperCase().indexOf(filterO) > -1 ) {
         trO[i].style.display = "";
         rowCountO++;
       } else {
@@ -250,7 +244,7 @@ function getItems(val) {
   tr_ = table_.getElementsByTagName("tr");
 
   for (i = 0; i < tr_.length; i++) {
-    td0_ = tr_[i].getElementsByTagName("td")[15];
+    td0_ = tr_[i].getElementsByTagName("td")[7];
     if (td0_) {
       txtVal0_ = td0_.textContent || td0_.innerText;
       if (txtVal0_.toUpperCase().indexOf(filter_) > -1) {
