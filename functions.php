@@ -288,6 +288,12 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     $noteforDelivery = $_POST['noteforDelivery'];
 
     // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
+    
+    $check = "SELECT * FROM customers WHERE name='$name'";
+    $read = $db_link->query($check);
+    $row = mysqli_num_rows($read);
+    $getData = mysqli_fetch_array($read);
+    
 
     $mop = $_POST['mop'];
 
@@ -296,32 +302,60 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     // echo "<script>alert('Successfully Submitted your Order')</script>";
     // header("Location: form.php");
 
-    if ($mop == 'CASH ON DELIVERY') {
-        $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-        $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
-        echo "<script>alert('Successfully Submitted your Order')</script>";
-        header("Location: form.php");
+    if ($row == 1){
+        ?>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    Swal.fire({
+                    title: 'An error occured!',
+                    text: 'Data is already in the database!',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Okay'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "form.php";
+                        }else{
+                            window.location.href = "form.php";
+                        }
+                    })
+                    
+                })
+        
+            </script>
+            <?php
     }else{
-        $ig = $_POST['payment1'];
-        // img validation
-        $img_name = $_FILES['payment1']['name'];
-        $img_size = $_FILES['payment1']['size'];
-        $tmp_name = $_FILES['payment1']['tmp_name'];
-        $error = $_FILES['payment1']['error'];
-    
-        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-        $img_ex_lc = strtolower($img_ex);
-        $allowed_exs = array("jpg", "jpeg", "png");
-        echo "<script>console.log('aaa');</script>";
-        if (in_array($img_ex_lc, $allowed_exs)) {
-            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-            $img_upload_path = 'screenshots/' . $new_img_name;
-            move_uploaded_file($tmp_name, $img_upload_path);
+        if ($mop == 'CASH ON DELIVERY'){
             $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
             echo "<script>alert('Successfully Submitted your Order')</script>";
             header("Location: form.php");
         }
+        else{
+            $ig = $_POST['payment1'];
+            // img validation
+            $img_name = $_FILES['payment1']['name'];
+            $img_size = $_FILES['payment1']['size'];
+            $tmp_name = $_FILES['payment1']['tmp_name'];
+            $error = $_FILES['payment1']['error'];
+        
+            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+            $img_ex_lc = strtolower($img_ex);
+            $allowed_exs = array("jpg", "jpeg", "png");
+            echo "<script>console.log('aaa');</script>";
+            if (in_array($img_ex_lc, $allowed_exs)) {
+                $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+                $img_upload_path = 'screenshots/' . $new_img_name;
+                move_uploaded_file($tmp_name, $img_upload_path);
+                $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
+                $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+                echo "<script>alert('Successfully Submitted your Order')</script>";
+                header("Location: form.php");
+            }
+        }
+
     }
   
     
@@ -623,17 +657,19 @@ if (isset($_POST['addTrackno'])) {
     $products = $_POST['prods'];
     $quantsNow = $_POST['quan'];
     $trackingno = $_POST['trackno'];
-    
+    $nameCustomer = $_POST['customer'];
 
-    $checking = "SELECT * FROM products WHERE name='$products'";
-    $prompt = $db_link->query($checking);
-    $row = mysqli_num_rows($prompt);
-    $getData = mysqli_fetch_array($prompt);
+    $checking1 = "SELECT * FROM products WHERE name='$products'";
+    $prompt1 = $db_link->query($checking1);
+    $row1 = mysqli_num_rows($prompt1);
+    $getData1 = mysqli_fetch_array($prompt1);
 
-    $currentQuants = $getData['quantity'];
-    $productName = $getData['name'];
+    $getId = $getData1['id'];
+    $currentQuants = $getData1['quantity'];
+    $productName = $getData1['name'];
  
     $totalQuants = $currentQuants - $quantsNow;
+
     // echo($quantsNow);
     // echo($currentQuants);
 
@@ -646,30 +682,30 @@ if (isset($_POST['addTrackno'])) {
         $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
         $month = $date->format('F');
         $month = strtolower($month);
-        $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
+        $r = $db_link->query("SELECT * FROM salesreport WHERE id=$getId");
         $row = mysqli_fetch_array($r);
         $currentval = $row[$month];
         $totals = (int)$currentval + (int)$quantsNow;
-        $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$getId") or die($db_link->error);
 
         // update the quantity regards by day
         $day = $date->format('l');
-        $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
+        $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$getId");
         $row = mysqli_fetch_array($r);
         $convertDay = strtolower($day);
         $currentval = $row[$convertDay];
         $totals = (int)$currentval + (int)$quantsNow;
-        $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$getId") or die($db_link->error);
 
         $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
         $row1 = mysqli_fetch_array($r1);
         $week = $row1['week'];
-        $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
+        $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$getId");
         $itemrow = mysqli_fetch_array($item);
         $whatweek = 'week' . $week;
         $val = $itemrow[$whatweek];
         $totals = (int)$val + (int)$quantsNow;
-        $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$getId") or die($db_link->error);
         
         ?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
