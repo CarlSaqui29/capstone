@@ -134,7 +134,9 @@
                   </form>
                   <td>
                     <form action="functions.php" method="POST">
-                      <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <input type="hidden" name="curDate" value="<?php echo $date->format('Y/m/d'); ?>">
+                      <input type="hidden" name="customer" value="<?php echo $row['name']; ?>">
                       <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
                       <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
                       <input type="hidden" name="stats" value="<?php echo $row['status']; ?>">
