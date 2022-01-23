@@ -26,6 +26,8 @@
                         <input id="names" type="text" class="form-control" name="name" placeholder="Enter Name" required>
                         <label for="fbname">FB Name</label>
                         <input id="fb" type="text" class="form-control" name="fbname" placeholder="Enter FB Name" required>
+                        <label for="email">Email</label>
+                        <input id="email" type="email" class="form-control" name="getEmail" placeholder="Enter Email" required>
                         <label for="concern">Ano po and kanilang health concern?</label>
                         <input id="concerns" type="text" class="form-control" name="concern" placeholder="" required>
                     </div>
@@ -84,11 +86,11 @@
                         <label for="">How many bottles po?</label>
                         <p>Avail na po sila ng 2-3 bottles promos para masulit ang free shipping po natin. 1075 pesos lang po pumapatak kada isang bottle kapag 2 bottles promo save up to 801 pesos kapag 2 bottles promo po pero kapag 3 bottles promo naman po pumapatak 1000 pesos each bottle lang po save up to 1201 pesos kapag 3 bottles promo po ang inavail nila.</p>
                         <p></p>
-                        <input type="radio" name="bottles" value="1"> A.) BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.
+                        <input type="radio" name="bottles" value="1"> A.) 1 BOTTLE: P1,135 ONLY! FREE Shipping (SAVE P635) - Good for 2 weeks.
                         <br>
-                        <input type="radio" name="bottles" value="2"> B.) BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle.
+                        <input type="radio" name="bottles" value="2"> B.) 2 BOTTLES: P1,900 ONLY! FREE Shipping (SAVE P1,220) - Good for 1 month + FREE one Alcohol with Spray bottle.
                         <br>
-                        <input type="radio" name="bottles" value="3"> C.) BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle.
+                        <input type="radio" name="bottles" value="3"> C.) 3 BOTTLES: P2,700 ONLY! FREE Shipping (SAVE P1,770) - Good for 1 month + FREE one Alcohol with Spray bottle.
                     </div>
                     <br>
                     <div class="form-group col">

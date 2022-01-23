@@ -30,7 +30,7 @@
           <a href="orders.php" class="nav_link"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
         </div>
       </div>
-      <a href="login.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+      <a href="index.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
     </nav>
   </div>
 
@@ -70,7 +70,6 @@
               <th scope="col">Purchase</th>
               <th scope="col">Retail</th>
               <th scope="col">Supplier</th>
-              <th scope="col">Status</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -126,7 +125,6 @@
                 <td>Php <?php echo $row['purchase']; ?></td>
                 <td>Php <?php echo $row['retail']; ?></td>
                 <td><?php echo $row['supplier']; ?></td>
-                <td>FAST MOVING</td>
                 <td>
                   <button type="button" data-bs-toggle="modal" data-bs-target="#edit<?php echo $row['id']; ?>" class="btn btn-sm btn-warning">Edit</button>
                   <a type="button" data-bs-toggle="modal" data-bs-target="#delete<?php echo $row['id']; ?>"  class="btn btn-sm btn-danger">Delete</a>

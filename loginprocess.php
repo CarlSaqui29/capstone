@@ -14,13 +14,21 @@
         $login2="SELECT * FROM users WHERE username='$username' AND password='$password' AND access='Salesperson'";
         $prompt2 = $db_link->query($login2);
         $row2 = mysqli_num_rows($prompt2);
-        
+
+        $login3="SELECT * FROM user_acc WHERE username='$username' AND password='$password'";
+        $prompt3 = $db_link->query($login3);
+        $row3 = mysqli_num_rows($prompt3);
+        $getData = mysqli_fetch_array($prompt3);
+        $getName = $getData['username'];
+
         if ($row1 == 1 ){
             header('location:dashboard.php');
         }elseif($row2 == 1){
             header('location:dashboardsales.php');
-        }
-        else{?>
+        }elseif($row3 == 1){
+            $_SESSION['name'] = $getName;
+            header('location:product_catalogue.php');
+        }else{?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script>
@@ -33,9 +41,9 @@
                 confirmButtonText: 'Okay'
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "login.php";
+                    window.location.href = "index.php";
                     }else{
-                        window.location.href = "login.php";
+                        window.location.href = "index.php";
                     }
                 })
                 

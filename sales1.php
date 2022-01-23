@@ -25,7 +25,7 @@
           <a href="orders1.php" class="nav_link"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
         </div>
       </div>
-      <a href="login.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+      <a href="index.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
     </nav>
   </div>
   <!--Container Main start-->
@@ -177,14 +177,6 @@
                             <div class="input-group-text">Profit</div>
                             <input type="hidden" id="purchase<?php echo $row['id']; ?>" value="<?php echo $row['purchase']; ?>">
                             <input type="number" min="0" name="profit" id="profit<?php echo $row['id']; ?>" class="form-control" placeholder="0" readonly style="background-color: #fff;">
-                          </div>
-                          <div class="input-group mt-2">
-                            <div class="input-group-text">Cash Given</div>
-                            <input type="number" name="tendered" min="" id="cg<?php echo $row['id']; ?>" oninput="calculateChangeSales(<?php echo $row['id']; ?>)" class="form-control" placeholder="0" required>
-                          </div>
-                          <div class="input-group mt-2">
-                            <div class="input-group-text">Change</div>
-                            <input type="number" name="change" id="change<?php echo $row['id']; ?>" class="form-control" placeholder="0" readonly style="background-color: #fff;">
                           </div>
                           <div class="col-md-12 mt-4 mb-2" style="text-align: right;">
                             <button type="submit" name="submitSalespersonForm" class="btn btn-primary">Add Form</button>

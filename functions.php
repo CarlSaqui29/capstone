@@ -13,71 +13,66 @@ if (isset($_POST['submitSaleForm'])) {
     $pName = $_POST['pName'];
     $retail = $_POST['retail'];
     $qty = $_POST['qty'];
-    $ta = $_POST['ta'];
-    $profit = $_POST['profit'];
-    $tendered = $_POST['tendered'];
-    $change = $_POST['change'];
+    // $ta = $_POST['ta'];
+    // $profit = $_POST['profit'];
+    // $tendered = $_POST['tendered'];
+    // $change = $_POST['change'];
     // newQty deduction for pick order
-    $newQty = $curQty - $qty;
+    // $newQty = $curQty - $qty;
 
-    $check = "SELECT * FROM orders WHERE name='$customers'";
+    $check = "SELECT * FROM customers WHERE name='$customers'";
     $read = $db_link->query($check);
     $row = mysqli_num_rows($read);
     $getData = mysqli_fetch_array($read);
+
 
     $getName = $getData['name'];
     $getFb = $getData['fbname'];
     $getConcern = $getData['concern'];
     $getQuestion = $getData['question'];
-    $getNumber = $getData['number'];
-    $getExtra = $getData['extranumber'];
+    $getNumber = $getData['phone'];
+    $getExtra = $getData['extraphone'];
     $getAddress = $getData['address'];
-    $getLandmark = $getData['landmark'];
-    $getProvince = $getData['province'];
-    $getCity = $getData['city'];
-    $getBarangay = $getData['barangay'];
-    $getProducts = $getData['products'];
-    $getBottles = $getData['bottles'];
-    $getCall = $getData['receivecall'];
-    $getNote = $getData['noteforDelivery'];
+    $getNote = $getData['note'];
 
     
-    $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', '$getLandmark', '$getProvince', '$getCity', '$getBarangay', '$pName','$qty', '$getCall', 'Pick Order form', '$getNote', 'PAID')") or die($db_link->error);
-    
-    // update the data qty regards to date(month) in salesreport
-    $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
-    $month = $date->format('F');
-    $month = strtolower($month);
-    $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
-    $row = mysqli_fetch_array($r);
-    $currentval = $row[$month];
-    $totals = (int)$currentval + (int)$qty;
-    echo($totals);
-    $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+    // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
 
-    // update the quantity regards by day
-    $day = $date->format('l');
-    $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
-    $row = mysqli_fetch_array($r);
-    $currentval = $row[$day];
-    $totals = (int)$currentval + (int)$qty;
-    $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
-
-    $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
-    $row1 = mysqli_fetch_array($r1);
-    $week = $row1['week'];
-    $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
-    $itemrow = mysqli_fetch_array($item);
-    $whatweek = 'week' . $week;
-    $val = $itemrow[$whatweek];
-    $totals = (int)$val + (int)$qty;
-    $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
-
-
-    #update products table
-    $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
+    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', ' ', ' ', ' ', ' ', '$pName','$qty', ' ', 'Pick Order form', '$getNote', 'NEW')") or die($db_link->error);
     header("Location: sales.php");
+    // // update the data qty regards to date(month) in salesreport
+    // $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
+    // $month = $date->format('F');
+    // $month = strtolower($month);
+    // $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
+    // $row = mysqli_fetch_array($r);
+    // $currentval = $row[$month];
+    // $totals = (int)$currentval + (int)$qty;
+    // echo($totals);
+    // $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+
+    // // update the quantity regards by day
+    // $day = $date->format('l');
+    // $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
+    // $row = mysqli_fetch_array($r);
+    // $currentval = $row[$day];
+    // $totals = (int)$currentval + (int)$qty;
+    // $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
+
+    // $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
+    // $row1 = mysqli_fetch_array($r1);
+    // $week = $row1['week'];
+    // $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
+    // $itemrow = mysqli_fetch_array($item);
+    // $whatweek = 'week' . $week;
+    // $val = $itemrow[$whatweek];
+    // $totals = (int)$val + (int)$qty;
+    // $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
+
+
+    // #update products table
+    // $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
+    // header("Location: sales.php");
 }
 
 // SALESPERSON PAGE
@@ -91,75 +86,84 @@ if (isset($_POST['submitSalespersonForm'])) {
     $pName = $_POST['pName'];
     $retail = $_POST['retail'];
     $qty = $_POST['qty'];
-    $ta = $_POST['ta'];
-    $profit = $_POST['profit'];
-    $tendered = $_POST['tendered'];
-    $change = $_POST['change'];
+    // $ta = $_POST['ta'];
+    // $profit = $_POST['profit'];
+    // $tendered = $_POST['tendered'];
+    // $change = $_POST['change'];
     // newQty deduction for pick order
-    $newQty = $curQty - $qty;
+    // $newQty = $curQty - $qty;
 
-    
-    $check = "SELECT * FROM orders WHERE name='$customers'";
+    $check = "SELECT * FROM customers WHERE name='$customers'";
     $read = $db_link->query($check);
     $row = mysqli_num_rows($read);
     $getData = mysqli_fetch_array($read);
+
 
     $getName = $getData['name'];
     $getFb = $getData['fbname'];
     $getConcern = $getData['concern'];
     $getQuestion = $getData['question'];
-    $getNumber = $getData['number'];
-    $getExtra = $getData['extranumber'];
+    $getNumber = $getData['phone'];
+    $getExtra = $getData['extraphone'];
     $getAddress = $getData['address'];
-    $getLandmark = $getData['landmark'];
-    $getProvince = $getData['province'];
-    $getCity = $getData['city'];
-    $getBarangay = $getData['barangay'];
-    $getProducts = $getData['products'];
-    $getBottles = $getData['bottles'];
-    $getCall = $getData['receivecall'];
-    $getNote = $getData['noteforDelivery'];
+    $getNote = $getData['note'];
 
-    $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', '$getLandmark', '$getProvince', '$getCity', '$getBarangay', '$getProduct','$getBottles', '$getCall', 'Pick Order form', '$getNote', 'PAID')") or die($db_link->error);
     
-    // update the data qty regards to date(month) in salesreport
-    $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
-    $month = $date->format('F');
-    $month = strtolower($month);
-    $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
-    $row = mysqli_fetch_array($r);
-    $currentval = $row[$month];
-    $totals = (int)$currentval + (int)$qty;
-    $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+    // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
 
-    // update the quantity regards by day
-    $day = $date->format('l');
-    $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
-    $row = mysqli_fetch_array($r);
-    $currentval = $row[$day];
-    $totals = (int)$currentval + (int)$qty;
-    $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
-
-    $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
-    $row1 = mysqli_fetch_array($r1);
-    $week = $row1['week'];
-    $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
-    $itemrow = mysqli_fetch_array($item);
-    $whatweek = 'week' . $week;
-    $val = $itemrow[$whatweek];
-    $totals = (int)$val + (int)$qty;
-    $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
-
-    #update products table
-    $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
+    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', ' ', ' ', ' ', ' ', '$pName','$qty', ' ', 'Pick Order form', '$getNote', 'NEW')") or die($db_link->error);
     header("Location: sales1.php");
+    // // update the data qty regards to date(month) in salesreport
+    // $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
+    // $month = $date->format('F');
+    // $month = strtolower($month);
+    // $r = $db_link->query("SELECT * FROM salesreport WHERE id=$id");
+    // $row = mysqli_fetch_array($r);
+    // $currentval = $row[$month];
+    // $totals = (int)$currentval + (int)$qty;
+    // echo($totals);
+    // $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$id") or die($db_link->error);
+
+    // // update the quantity regards by day
+    // $day = $date->format('l');
+    // $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$id");
+    // $row = mysqli_fetch_array($r);
+    // $currentval = $row[$day];
+    // $totals = (int)$currentval + (int)$qty;
+    // $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$id") or die($db_link->error);
+
+    // $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
+    // $row1 = mysqli_fetch_array($r1);
+    // $week = $row1['week'];
+    // $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$id");
+    // $itemrow = mysqli_fetch_array($item);
+    // $whatweek = 'week' . $week;
+    // $val = $itemrow[$whatweek];
+    // $totals = (int)$val + (int)$qty;
+    // $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$id") or die($db_link->error);
+
+
+    // #update products table
+    // $db_link->query("UPDATE products SET quantity='$newQty' WHERE id=$id") or die($db_link->error);
+    // header("Location: sales.php");
    }
 
 
 // PRODUCT PAGE
+function generateRandomString($length = 7)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 // add form
 if (isset($_POST['addProduct']) && isset($_FILES['my_image'])) {
+    $code = generateRandomString();
     $productCategory = $_POST['productCategory'];
     $productName = $_POST['productName'];
     $productQty = $_POST['productQty'];
@@ -182,7 +186,7 @@ if (isset($_POST['addProduct']) && isset($_FILES['my_image'])) {
         $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
         $img_upload_path = 'uploads/' . $new_img_name;
         move_uploaded_file($tmp_name, $img_upload_path);
-        $db_link->query("INSERT INTO products (category, name, quantity, purchase, retail, supplier, img_url) VALUES('$productCategory', '$productName', '$productQty', '$productPurchaseAmount', '$productRetail', '$productSupplier', '$new_img_name')") or die($db_link->error);
+        $db_link->query("INSERT INTO products (category, name, quantity, purchase, retail, supplier, img_url, code) VALUES('$productCategory', '$productName', '$productQty', '$productPurchaseAmount', '$productRetail', '$productSupplier', '$new_img_name', '$code')") or die($db_link->error);
         // sales report
         $db_link->query("INSERT INTO salesreport (nameOfProduct) VALUES ('$productName')") or die($db_link->error);
         $db_link->query("INSERT INTO salesreport1 (nameOfProduct) VALUES ('$productName')") or die($db_link->error);
@@ -250,14 +254,16 @@ if (isset($_GET['deleteSupplier'])) {
 
 // CUSTOMERS PAGE
 // add customer
-// if (isset($_POST['addCustomer'])) {
-//  $customerName = $_POST['customerName'];
-//  $customerContact = $_POST['customerContact'];
-//  $customerAddress = $_POST['customerAddress'];
-//  $customerNote = $_POST['customerNote'];
-//  $db_link->query("INSERT INTO customers (name, contact, address, note) VALUES('$customerName', '$customerContact', '$customerAddress', '$customerNote')") or die($db_link->error);
-//  header("Location: customers.php");
-// }
+if (isset($_POST['addCustomer'])) {
+ $customerName = $_POST['customerName'];
+ $customerFb = $_POST['customerfbName'];
+ $customerContact = $_POST['customerContact'];
+ $customerExtra = $_POST['extraContact'];
+ $customerAddress = $_POST['customerAddress'];
+ $customerNote = $_POST['customerNote'];
+ $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$customerName', '$customerFb', ' ', ' ', '$customerContact', '$customerExtra', '$customerAddress', '$customerNote')") or die($db_link->error);
+ header("Location: customers.php");
+}
 
 // delete
 if (isset($_GET['deleteCustomer'])) {
@@ -273,6 +279,7 @@ if (isset($_GET['deleteCustomer'])) {
 if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     $name = $_POST['name'];
     $fbname = $_POST['fbname'];
+    $emailCustomer = $_POST['getEmail'];
     $concern = $_POST['concern'];
     $question = $_POST['question'];
     $number = $_POST['number'];
@@ -296,6 +303,7 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
     
 
     $mop = $_POST['mop'];
+    
 
     // echo "<script>console.log('bbbb');</script>";
     // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, bottles, receivecall, mop, note) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$bottles', '$receivecall', '$mop', '$noteforDelivery')") or die($db_link->error);
@@ -332,6 +340,7 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
             $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
             echo "<script>alert('Successfully Submitted your Order')</script>";
             header("Location: form.php");
+            include 'customer_email.php';
         }
         else{
             $ig = $_POST['payment1'];
@@ -353,6 +362,7 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
                 $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
                 echo "<script>alert('Successfully Submitted your Order')</script>";
                 header("Location: form.php");
+                include 'customer_email.php';
             }
         }
 
@@ -371,10 +381,16 @@ if (isset($_POST['orderConfirm'])) {
     $prompt = $db_link->query($checking);
     $row = mysqli_num_rows($prompt);
     $display = mysqli_fetch_array($prompt);
+
+    $check = "SELECT * FROM products WHERE name='$name'";
+    $promp = $db_link->query($check);
+    $displays = mysqli_fetch_array($promp);
+    $getQuants = $displays['quantity'];
     if ($row != 0){
         $ids = $display['id'];
         $quants = $display['quantity'];
-        $db_link->query("UPDATE products SET quantity='$quants' WHERE id=$id") or die($db_link->error);
+        $totals = $getQuants + $quants;
+        $db_link->query("UPDATE products SET quantity='$totals' WHERE id=$id") or die($db_link->error);
         $db_link->query("DELETE FROM requested WHERE id=$ids") or die($db_link->error);
         header("Location: stocktaking.php");
     }else{?>
@@ -445,6 +461,7 @@ if (isset($_POST['updtStat'])) {
             </script>
             <?php
     }else if ($gets == "RETURNED"){
+        $db_link->query("DELETE FROM sales WHERE id=$id") or die($db_link->error);
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totsQuants' WHERE name='$products'") or die($db_link->error);
         ?>
@@ -504,6 +521,18 @@ if (isset($_POST['updtStat'])) {
 if (isset($_POST['updtStatSP'])) {
     $id = $_POST['id'];
     $gets = $_POST['stats'];
+    $curQuants = $_POST['quan'];
+    $products = $_POST['prods'];
+
+    $checking = "SELECT * FROM products WHERE name='$products'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+    $getData = mysqli_fetch_array($prompt);
+    
+    $proQuants  = $getData['quantity'];
+    $productName = $getData['name'];
+
+    $totsQuants = $proQuants + $curQuants;
     
     if ($gets == ""){
         ?>
@@ -528,6 +557,32 @@ if (isset($_POST['updtStatSP'])) {
         
             </script>
             <?php
+    }else if ($gets == "RETURNED"){
+        $db_link->query("DELETE FROM sales WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE products SET quantity='$totsQuants' WHERE name='$products'") or die($db_link->error);
+        ?>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    Swal.fire({
+                    title: 'Successfully Updated',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Okay'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "orders1.php";
+                        }else{
+                            window.location.href = "orders1.php";
+                        }
+                    })
+                    
+                })
+        
+            </script>
+        <?php
     }else{
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
         ?>
@@ -597,7 +652,7 @@ if (isset($_POST['addUser'])) {
         </script>
         <?php
     }else if ($row == 0){
-        $db_link->query("INSERT INTO users (username, password, access) VALUES('$userr', '$pass1', '$acc')") or die($db_link->error);
+        $db_link->query("INSERT INTO users (username, password, access, otp) VALUES('$userr', '$pass1', '$acc', '0')") or die($db_link->error);
         ?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -666,7 +721,7 @@ if (isset($_POST['addTrackno'])) {
     $row1 = mysqli_num_rows($prompt1);
     $getData1 = mysqli_fetch_array($prompt1);
 
-    $getId = $getData1['id'];
+    $getIds = $getData1['id'];
     $currentQuants = $getData1['quantity'];
     $retails = $getData1['retail'];
     $categories = $getData1['category'];
@@ -685,30 +740,30 @@ if (isset($_POST['addTrackno'])) {
         $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
         $month = $date->format('F');
         $month = strtolower($month);
-        $r = $db_link->query("SELECT * FROM salesreport WHERE id=$getId");
+        $r = $db_link->query("SELECT * FROM salesreport WHERE id=$getIds");
         $row = mysqli_fetch_array($r);
         $currentval = $row[$month];
         $totals = (int)$currentval + (int)$quantsNow;
-        $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$getId") or die($db_link->error);
+        $db_link->query("UPDATE salesreport SET $month='$totals' WHERE id=$getIds") or die($db_link->error);
 
         // update the quantity regards by day
         $day = $date->format('l');
-        $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$getId");
+        $r = $db_link->query("SELECT * FROM salesreport2 WHERE id=$getIds");
         $row = mysqli_fetch_array($r);
         $convertDay = strtolower($day);
         $currentval = $row[$convertDay];
         $totals = (int)$currentval + (int)$quantsNow;
-        $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$getId") or die($db_link->error);
+        $db_link->query("UPDATE salesreport2 SET $day='$totals' WHERE id=$getIds") or die($db_link->error);
 
         $r1 = $db_link->query("SELECT * FROM dayspass WHERE id=1");
         $row1 = mysqli_fetch_array($r1);
         $week = $row1['week'];
-        $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$getId");
+        $item = $db_link->query("SELECT * FROM salesreport1 WHERE id=$getIds");
         $itemrow = mysqli_fetch_array($item);
         $whatweek = 'week' . $week;
         $val = $itemrow[$whatweek];
         $totals = (int)$val + (int)$quantsNow;
-        $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$getId") or die($db_link->error);
+        $db_link->query("UPDATE salesreport1 SET $whatweek='$totals' WHERE id=$getIds") or die($db_link->error);
         
         ?>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -869,3 +924,139 @@ if (isset($_POST['addTracknoSP'])) {
         <?php
     }
 }
+
+
+//REGISTER CUSTOMER
+if (isset($_POST['register'])) {
+    $first = $_POST['fname'];
+    $middle = $_POST['mname'];
+    $last = $_POST['lname'];
+    $userr = $_POST['username'];
+    $email = $_POST['emails'];
+    $contacts = $_POST['contact'];
+    $pass1 = $_POST['password1'];
+    $pass2 = $_POST['password2'];
+    $setOTP = rand(0000,9999);
+
+    $checking = "SELECT * FROM user_acc WHERE password='$pass1' OR username='$userr' OR firstname='$first'";
+    $prompt = $db_link->query($checking);
+    $row = mysqli_num_rows($prompt);
+
+    if ($pass1 != $pass2){
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'error',
+                title: 'Password does not match',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "index.php";
+                    }else{
+                        window.location.href = "index.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }else if ($row == 0){
+        $db_link->query("INSERT INTO user_acc (firstname, middlename, lastname, username, email, contact, password, otp) VALUES('$first', '$middle', '$last', '$userr', '$email', '$contacts', '$pass1', '$setOTP')") or die($db_link->error);
+        include 'otp_email.php';
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'success',
+                title: 'Successfully Registered',
+                text: 'Please login your credentials now. We sent an OTP for your account verification',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "otp.php";
+                    }else{
+                        window.location.href = "otp.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }else{
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'warning',
+                title: 'Data is already in the database',
+                text: 'Please login your credentials now',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "index.php";
+                    }else{
+                        window.location.href = "index.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+}
+
+
+if (isset($_POST['otplogin'])) {
+    $checkOTP = $_POST['otp'];
+
+    $login="SELECT * FROM user_acc WHERE otp='$checkOTP'";
+    $prompt = $db_link->query($login);
+    $row = mysqli_num_rows($prompt);
+    $getData = mysqli_fetch_array($prompt);
+
+    $getName = $getData['username'];
+    if ($row == 1){
+        $_SESSION['name'] = $getName;
+        header('location:product_catalogue.php');
+    }else{
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'error',
+                title: 'OTP is incorrect! Kindly Check your email for your OTP code.',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "otp.php";
+                    }else{
+                        window.location.href = "otp.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+}
+
