@@ -69,6 +69,7 @@ if (!empty($_GET["action"])) {
       <a class="navbar-brand" href="#" style="color:#ffc107;">CV-GFOXX</a>
 
       <form class="d-flex">
+        <a href="" class="btn btn-primary" style="transform: translateY(8px);">My Orders</a> 
         <a href="index.php" class="btn btn-warning" style="transform: translateY(8px);">Logout <i class='bx bx-log-out'></i></a>
         <!-- <a href="" style="color:#ffc107; font-size: 25px;  text-decoration: none;" class="">Logout <i class='bx bx-log-out'></i></a> -->
       </form>
@@ -117,9 +118,31 @@ if (!empty($_GET["action"])) {
             <?php
               $total_quantity += $item["quantity"];
               $total_price += ($item["price"] * $item["quantity"]);
+            ?>
+            <?php
+              $getSessionName = $_SESSION['name'];
+              $checking = "SELECT * FROM user_acc WHERE username='$getSessionName'";
+              $prompt = $db_link->query($checking);
+              $row = mysqli_num_rows($prompt);
+              $getData = mysqli_fetch_array($prompt);
+
+              $getFname = $getData['firstname'];
+              $getMname = $getData['middlename'];
+              $getLname = $getData['lastname'];
+              $getEmail = $getData['email'];
+              $getContact = $getData['contact'];
             }
             ?>
-
+            <form action="checkout.php" method="POST">
+              <input type="hidden" name="fname" value="<?php echo $getFname?>">
+              <input type="hidden" name="mname" value="<?php echo $getMname?>">
+              <input type="hidden" name="lname" value="<?php echo $getLname?>">
+              <input type="hidden" name="emails" value="<?php echo $getEmail?>">
+              <input type="hidden" name="contacts" value="<?php echo $getContact?>">
+              <input type="hidden" name="totals" value="<?php echo $total_price?>">
+              <a id="btnEmpty" class="btn btn-danger mb-3" href="product_catalogue.php?action=empty">Empty Cart</a>
+              <button type="submit" class="btn btn-warning mb-3 mx-2" name="checkout">Checkout</button>
+            </form>
             <tr>
               <td colspan="2" align="right">Total:</td>
               <td align="right"><?php echo $total_quantity; ?></td>
@@ -127,7 +150,6 @@ if (!empty($_GET["action"])) {
               <td></td>
             </tr>
           </tbody>
-          <a id="btnEmpty" class="btn btn-danger mb-3" href="product_catalogue.php?action=empty">Empty Cart</a><a id="btnEmpty" class="btn btn-warning mb-3 mx-2" href="">Checkout</a>
         </table>
       </div>
     <?php

@@ -336,11 +336,12 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
             <?php
     }else{
         if ($mop == 'CASH ON DELIVERY'){
-            $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-            $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
-            echo "<script>alert('Successfully Submitted your Order')</script>";
-            header("Location: form.php");
-            include 'customer_email.php';
+            // $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
+            // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop', '$noteforDelivery', 'NEW')") or die($db_link->error);
+            // echo "<script>alert('Successfully Submitted your Order')</script>";
+            // header("Location: form.php");
+            // include 'customer_email.php';
+            echo('CASH ON DELIVERY TO LODS');
         }
         else{
             $ig = $_POST['payment1'];
@@ -358,11 +359,12 @@ if (isset($_POST['submitOrderForm'])  && isset($_FILES['payment1'])) {
                 $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
                 $img_upload_path = 'screenshots/' . $new_img_name;
                 move_uploaded_file($tmp_name, $img_upload_path);
-                $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-                $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
-                echo "<script>alert('Successfully Submitted your Order')</script>";
-                header("Location: form.php");
-                include 'customer_email.php';
+                // $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
+                // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+                // echo "<script>alert('Successfully Submitted your Order')</script>";
+                // header("Location: form.php");
+                // include 'customer_email.php';
+                echo('MAY FILES DITO BOSS');
             }
         }
 
@@ -1020,7 +1022,7 @@ if (isset($_POST['register'])) {
     }
 }
 
-
+//OTP VERIFICATION
 if (isset($_POST['otplogin'])) {
     $checkOTP = $_POST['otp'];
 
@@ -1060,3 +1062,92 @@ if (isset($_POST['otplogin'])) {
     }
 }
 
+
+//CHECKOUT
+if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
+    $date = $_POST['dates'];
+    $firstname = $_POST['first'];
+    $middlename = $_POST['middle'];
+    $lastname = $_POST['last'];
+    $emails = $_POST['email'];
+    $contacts = $_POST['contact'];
+    $totals = $_POST['total'];
+    $address = $_POST['address'];
+    $mop = $_POST['mop'];
+
+    $getItems = $_SESSION["cart_item"];
+    $username = $_SESSION['name'];
+
+    if ($mop == 'CASH ON DELIVERY'){
+        $check = "SELECT * FROM customers WHERE username='$username'";
+        $read = $db_link->query($check);
+        $row = mysqli_num_rows($read);
+        $getData = mysqli_fetch_array($read);
+
+        if ($row == 1){
+            echo('Meron na nyan sa db');
+        }else{
+            $db_link->query("INSERT INTO customers (fullname, username, email, contact, address) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$username','$emails', '$contacts', ' $address')") or die($db_link->error);
+        }
+
+        foreach ($getItems as $item) {
+            $getName = $item['name'];
+            $getQuants = $item['quantity'];
+    
+            $login="SELECT * FROM products WHERE name='$getName'";
+            $prompt = $db_link->query($login);
+            $getData = mysqli_fetch_array($prompt);
+        
+            $productName = $getData['name'];
+            $quantsProduct = $getData['quantity'];
+    
+            $getTotal = $quantsProduct - $getQuants;
+    
+            echo $getTotal;
+    
+        
+            $db_link->query("INSERT INTO myorders (firstname, middlename, lastname, username, email, contact, product, quantity, address, mop, total, dates, status) VALUES('$firstname', '$middlename', '$lastname', '$username', '$emails', '$contacts', '$getName', '$getQuants', '$address', '$mop', '$totals', '$date', 'NEW')") or die($db_link->error);
+            $db_link->query("INSERT INTO orders (fullname, address, products, quantity, mop, note, status, trackno) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$address', '$getName', '$getQuants', '$mop', '', 'NEW', '')") or die($db_link->error);
+        }
+        // echo "<script>alert('Successfully Submitted your Order')</script>";
+        // header("Location: form.php");
+        // include 'customer_email.php';
+    }
+    else{
+        $check = "SELECT * FROM customers WHERE username='$username'";
+        $read = $db_link->query($check);
+        $row = mysqli_num_rows($read);
+        $getData = mysqli_fetch_array($read);
+
+        if ($row == 1){
+            echo('Meron na nyan sa db');
+        }else{
+            $db_link->query("INSERT INTO customers (fullname, username, email, contact, address) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$username','$emails', '$contacts', ' $address')") or die($db_link->error);
+        }
+
+        $ig = $_POST['payment'];
+        // img validation
+        $img_name = $_FILES['payment']['name'];
+        $img_size = $_FILES['payment']['size'];
+        $tmp_name = $_FILES['payment']['tmp_name'];
+        $error = $_FILES['payment']['error'];
+    
+        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+        $img_ex_lc = strtolower($img_ex);
+        $allowed_exs = array("jpg", "jpeg", "png");
+        echo "<script>console.log('aaa');</script>";
+        if (in_array($img_ex_lc, $allowed_exs)) {
+            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+            $img_upload_path = 'screenshots/' . $new_img_name;
+            move_uploaded_file($tmp_name, $img_upload_path);
+            // $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
+            // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
+            // echo "<script>alert('Successfully Submitted your Order')</script>";
+            // header("Location: form.php");
+            // include 'customer_email.php';
+            echo('May na upload dito lods');
+        }
+    }
+    
+
+}

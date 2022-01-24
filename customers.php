@@ -62,14 +62,11 @@
     <table class="table mt-4 table-hover" id="myTable">
      <thead class="table-dark">
       <tr>
-       <th scope="col">Name</th>
-       <th scope="col">FB Name</th>
-       <th scope="col">Concern</th>
-       <th scope="col">Question</th>
-       <th scope="col">Mobile #</th>
-       <th scope="col">Other Mobile #</th>
+       <th scope="col">Fullname</th>
+       <th scope="col">Username</th>
+       <th scope="col">Email</th>
+       <th scope="col">Contact</th>
        <th scope="col">Address</th>
-       <th scope="col">Note</th>
        <th scope="col">Action</th>
       </tr>
      </thead>
@@ -81,14 +78,11 @@
       while ($row = mysqli_fetch_array($result)) {
       ?>
        <tr>
-        <td><?php echo $row['name']; ?></td>
-        <td><?php echo $row['fbname']; ?></td>
-        <td><?php echo $row['concern']; ?></td>
-        <td><?php echo $row['question']; ?></td>
-        <td><?php echo $row['phone']; ?></td>
-        <td><?php echo $row['extraphone']; ?></td>
+        <td><?php echo $row['fullname']; ?></td>
+        <td><?php echo $row['username']; ?></td>
+        <td><?php echo $row['email']; ?></td>
+        <td><?php echo $row['contact']; ?></td>
         <td><?php echo $row['address']; ?></td>
-        <td><?php echo $row['note']; ?></td>
         <td><a type="button" class="btn btn-sm btn-danger" href="functions.php?deleteCustomer=<?php echo $row["id"] ?>">Delete</a></td>
        </tr>
       <?php }; ?>
