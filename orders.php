@@ -95,9 +95,9 @@
             while ($row = mysqli_fetch_array($result)) {
             ?>
               <tr>
-                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['fullname']; ?></td>
                 <td><?php echo $row['products']?></td>
-                <td><?php echo $row['bottles']; ?></td>
+                <td><?php echo $row['quantity']; ?></td>
                 <td><?php echo $row['mop']; ?></td>
                 <?php
                 $str = $row['mop'];
@@ -106,8 +106,9 @@
                 <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
                 <td><?php echo $row['note']; ?></td>
                 <form action="functions.php" method="POST">
+                  <input type="hidden" name="order" value="<?php echo $row['ordersno']; ?>">
                   <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                  <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
+                  <input type="hidden" name="quan" value="<?php echo $row['quantity']; ?>">
                   <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
                   <?php
                       $querys = "SELECT * FROM products";
@@ -138,10 +139,11 @@
                   <td>
                     <form action="functions.php" method="POST">
                       <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <input type="hidden" name="order" value="<?php echo $row['ordersno']; ?>">
                       <input type="hidden" name="curDate" value="<?php echo $date->format('Y/m/d'); ?>">
-                      <input type="hidden" name="customer" value="<?php echo $row['name']; ?>">
+                      <input type="hidden" name="customer" value="<?php echo $row['fullname']; ?>">
                       <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
-                      <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
+                      <input type="hidden" name="quan" value="<?php echo $row['quantity']; ?>">
                       <input type="hidden" name="stats" value="<?php echo $row['status']; ?>">
                       <input type="number" class="form-control" name="trackno" required>
                       <button class="btn btn-primary form-control" type="submit" name="addTrackno">Add</button>

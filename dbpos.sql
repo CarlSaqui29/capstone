@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost: 3307
--- Generation Time: Jan 16, 2022 at 05:02 AM
+-- Generation Time: Jan 25, 2022 at 10:26 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -29,15 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `fbname` varchar(100) NOT NULL,
-  `concern` varchar(100) NOT NULL,
-  `question` varchar(100) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `extraphone` varchar(20) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `note` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `fullname` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contact` varchar(100) NOT NULL,
+  `address` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -62,29 +59,45 @@ INSERT INTO `dayspass` (`id`, `days`, `week`, `year`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `myorders`
+--
+
+CREATE TABLE `myorders` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `middlename` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `product` varchar(100) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `mop` varchar(100) NOT NULL,
+  `total` int(11) NOT NULL,
+  `dates` text NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `trackno` varchar(100) NOT NULL,
+  `orderno` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `fbname` varchar(50) NOT NULL,
-  `concern` varchar(50) NOT NULL,
-  `question` varchar(50) NOT NULL,
-  `phone` int(15) NOT NULL,
-  `extraphone` int(15) NOT NULL,
+  `fullname` varchar(100) NOT NULL,
   `address` varchar(50) NOT NULL,
-  `landmark` varchar(50) NOT NULL,
-  `province` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `barangay` varchar(50) NOT NULL,
   `products` varchar(100) NOT NULL,
-  `bottles` int(11) NOT NULL,
-  `receivecall` varchar(100) NOT NULL,
+  `quantity` int(11) NOT NULL,
   `mop` text NOT NULL,
   `note` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL,
-  `trackno` varchar(100) NOT NULL
+  `trackno` varchar(100) NOT NULL,
+  `ordersno` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -101,7 +114,8 @@ CREATE TABLE `products` (
   `purchase` int(11) NOT NULL,
   `retail` int(11) NOT NULL,
   `supplier` varchar(100) NOT NULL,
-  `img_url` text NOT NULL
+  `img_url` text NOT NULL,
+  `code` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -228,6 +242,24 @@ INSERT INTO `users` (`userid`, `username`, `password`, `access`) VALUES
 (1, 'admin', 'admin', 'Admin'),
 (2, 'salesperson', 'salesperson', 'Salesperson');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_acc`
+--
+
+CREATE TABLE `user_acc` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `middlename` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `otp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -236,12 +268,18 @@ INSERT INTO `users` (`userid`, `username`, `password`, `access`) VALUES
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`,`name`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `dayspass`
 --
 ALTER TABLE `dayspass`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `myorders`
+--
+ALTER TABLE `myorders`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -299,6 +337,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`userid`);
 
 --
+-- Indexes for table `user_acc`
+--
+ALTER TABLE `user_acc`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -313,6 +357,12 @@ ALTER TABLE `customers`
 --
 ALTER TABLE `dayspass`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `myorders`
+--
+ALTER TABLE `myorders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -330,7 +380,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `requested`
 --
 ALTER TABLE `requested`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `sales`
@@ -366,7 +416,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `user_acc`
+--
+ALTER TABLE `user_acc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

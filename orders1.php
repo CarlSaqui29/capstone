@@ -2,32 +2,32 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link rel="stylesheet" href="css/styles.css">
- <title>Orders</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Orders</title>
 </head>
 
 <body id="body-pd" class="bg-light">
- <header class="header" id="header">
-  <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
- </header>
- <div class="l-navbar" id="nav-bar">
-  <nav class="nav">
-   <div>
-    <a href="dashboardsales.php" class="nav_logo"><i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">CV-GFOXX</span> </a>
-    <div class="nav_list">
-     <a href="dashboardsales.php" class="nav_link "><i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a>
-     <a href="sales1.php" class="nav_link"><i class='bx bx-cart nav_icon'></i> <span class="nav_name">Sales</span> </a>
-     <a href="orders1.php" class="nav_link active"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
-    </div>
-   </div>
-   <a href="index.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
-  </nav>
- </div>
+  <header class="header" id="header">
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+  </header>
+  <div class="l-navbar" id="nav-bar">
+    <nav class="nav">
+      <div>
+        <a href="dashboardsales.php" class="nav_logo"><i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">CV-GFOXX</span> </a>
+        <div class="nav_list">
+          <a href="dashboardsales.php" class="nav_link "><i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a>
+          <a href="sales1.php" class="nav_link"><i class='bx bx-cart nav_icon'></i> <span class="nav_name">Sales</span> </a>
+          <a href="orders1.php" class="nav_link active"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
+        </div>
+      </div>
+      <a href="index.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+    </nav>
+  </div>
 
   <!--Container Main start-->
   <div class="height-100">
@@ -42,8 +42,8 @@
       </div>
     </div>
 
-     <!-- table sales -->
-     <div class="mt-5">
+    <!-- table sales -->
+    <div class="mt-5">
       <div class="row">
         <div class="col-lg-7">
           <h4 class="mt-1 mb-1">Orders Table</h4>
@@ -56,7 +56,7 @@
       <br>
       <h6>*For updating the status please select a status then click the update button to update the status.*</h6>
       <h6>*Tracking Number is for shipped status only*</h6>
-      <select class="btn btn-success" id="filter_" onchange="getItems(this.value)">
+      <select class="btn btn-success" id="filters" onchange="getItems(this.value)">
         <option value="" selected>All</option>
         <option value="NEW">NEW</option>
         <option value="CONFIRMED">CONFIRMED</option>
@@ -90,9 +90,9 @@
             while ($row = mysqli_fetch_array($result)) {
             ?>
               <tr>
-                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['fullname']; ?></td>
                 <td><?php echo $row['products']?></td>
-                <td><?php echo $row['bottles']; ?></td>
+                <td><?php echo $row['quantity']; ?></td>
                 <td><?php echo $row['mop']; ?></td>
                 <?php
                 $str = $row['mop'];
@@ -101,8 +101,9 @@
                 <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
                 <td><?php echo $row['note']; ?></td>
                 <form action="functions.php" method="POST">
+                  <input type="hidden" name="order" value="<?php echo $row['ordersno']; ?>">
                   <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                  <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
+                  <input type="hidden" name="quan" value="<?php echo $row['quantity']; ?>">
                   <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
                   <?php
                       $querys = "SELECT * FROM products";
@@ -132,11 +133,12 @@
                   </form>
                   <td>
                     <form action="functions.php" method="POST">
-                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <input type="hidden" name="order" value="<?php echo $row['ordersno']; ?>">
                       <input type="hidden" name="curDate" value="<?php echo $date->format('Y/m/d'); ?>">
-                      <input type="hidden" name="customer" value="<?php echo $row['name']; ?>">
+                      <input type="hidden" name="customer" value="<?php echo $row['fullname']; ?>">
                       <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
-                      <input type="hidden" name="quan" value="<?php echo $row['bottles']; ?>">
+                      <input type="hidden" name="quan" value="<?php echo $row['quantity']; ?>">
                       <input type="hidden" name="stats" value="<?php echo $row['status']; ?>">
                       <input type="number" class="form-control" name="trackno" required>
                       <button class="btn btn-primary form-control" type="submit" name="addTracknoSP">Add</button>
@@ -178,10 +180,10 @@
       </div>
     </div>
   </div>
-  
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
- <script src="js/app.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
 </body>
 
 </html>

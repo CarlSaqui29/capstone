@@ -143,7 +143,7 @@
                               $queryCus = "SELECT * FROM customers";
                               $resultCus = mysqli_query($db_link, $queryCus);
                               while ($rowCus = mysqli_fetch_array($resultCus)) { ?>
-                                <option><?php echo $rowCus['name']; ?></option>
+                                <option><?php echo $rowCus['fullname']; ?></option>
                               <?php
                               } ?>
                             </select>

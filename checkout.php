@@ -37,7 +37,7 @@ if (isset($_POST['checkout'])) {
       <a class="navbar-brand" href="#" style="color:#ffc107;">CV-GFOXX</a>
 
       <form class="d-flex">
-      <a href="" class="btn btn-primary" style="transform: translateY(8px);">My Orders</a> 
+      <a href="myorders.php" class="btn btn-primary" style="transform: translateY(8px);">My Orders</a> 
         <a href="index.php" class="btn btn-warning" style="transform: translateY(8px);">Logout <i class='bx bx-log-out'></i></a>
         <!-- <a href="" style="color:#ffc107; font-size: 25px;  text-decoration: none;" class="">Logout <i class='bx bx-log-out'></i></a> -->
       </form>

@@ -27,7 +27,7 @@ require_once("config.php");
       <a class="navbar-brand" href="#" style="color:#ffc107;">CV-GFOXX</a>
 
       <form class="d-flex">
-        <a href="" class="btn btn-primary" style="transform: translateY(8px);">My Orders</a> 
+        <a href="myorders.php" class="btn btn-primary" style="transform: translateY(8px);">My Orders</a> 
         <a href="index.php" class="btn btn-warning" style="transform: translateY(8px);">Logout <i class='bx bx-log-out'></i></a>
         <!-- <a href="" style="color:#ffc107; font-size: 25px;  text-decoration: none;" class="">Logout <i class='bx bx-log-out'></i></a> -->
       </form>
@@ -47,12 +47,12 @@ require_once("config.php");
        <div class="container">
            <div class="row">
                <div class="col">
-                    <h4>Fullname: <?php echo  $_SESSION['getFirstname']; ?>  <?php echo  $_SESSION['getMiddlename']; ?> <?php echo  $_SESSION['getLastname']; ?> </h4>
-                    <h4>Email: <?php echo  $_SESSION['getEmail'] ; ?></h4>
-                    <h4>Contact: <?php echo  $_SESSION['getContact']; ?></h4>
-                    <h4>Mop: CASH ON DELIVERY</h4>
+                    <h4>Fullname: <?php echo  $_SESSION['firstname']; ?>  <?php echo  $_SESSION['middlename']; ?> <?php echo  $_SESSION['lastname']; ?> </h4>
+                    <h4>Email: <?php echo  $_SESSION['email'] ; ?></h4>
+                    <h4>Contact: <?php echo  $_SESSION['contact']; ?></h4>
+                    <h4>Mop: <?php echo $_SESSION['mop']; ?></h4>
                     <h4>Status: NEW</h4>
-                    <h4>Total Payment: P<?php echo  $_SESSION['getTotal']; ?></h4>
+                    <h4>Total Payment: P<?php echo  $_SESSION['total']; ?></h4>
                     <br>
                     <h4>Thank You, have a nice day!</h4>
                 </div>
@@ -62,7 +62,7 @@ require_once("config.php");
        </div>
     <br>
         <div class="text-center">
-            <button type="submit" class="btn btn-success w-100">Check My Orders</button>
+            <a href="myorders.php" class="btn btn-success w-100">Check My Orders</button>
             <a href="product_catalogue.php?action=empty" type="button" class="btn btn-primary w-100">Back</a>
         </div>
         <br>

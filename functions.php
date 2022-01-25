@@ -20,25 +20,20 @@ if (isset($_POST['submitSaleForm'])) {
     // newQty deduction for pick order
     // $newQty = $curQty - $qty;
 
-    $check = "SELECT * FROM customers WHERE name='$customers'";
+    $check = "SELECT * FROM customers WHERE fullname='$customers'";
     $read = $db_link->query($check);
     $row = mysqli_num_rows($read);
     $getData = mysqli_fetch_array($read);
 
 
-    $getName = $getData['name'];
-    $getFb = $getData['fbname'];
-    $getConcern = $getData['concern'];
-    $getQuestion = $getData['question'];
-    $getNumber = $getData['phone'];
-    $getExtra = $getData['extraphone'];
+    $getName = $getData['fullname'];
+    $username = $getData['username'];
+    $getContact = $getData['contact'];
     $getAddress = $getData['address'];
-    $getNote = $getData['note'];
 
     
     // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-
-    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', ' ', ' ', ' ', ' ', '$pName','$qty', ' ', 'Pick Order form', '$getNote', 'NEW')") or die($db_link->error);
+    $db_link->query("INSERT INTO orders (fullname, address, products, quantity, mop, note, status, trackno) VALUES('$getName', '$address', '$pName', '$qty', 'Pick Order Form', '', 'NEW', '')") or die($db_link->error);
     header("Location: sales.php");
     // // update the data qty regards to date(month) in salesreport
     // $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
@@ -93,25 +88,20 @@ if (isset($_POST['submitSalespersonForm'])) {
     // newQty deduction for pick order
     // $newQty = $curQty - $qty;
 
-    $check = "SELECT * FROM customers WHERE name='$customers'";
+    $check = "SELECT * FROM customers WHERE fullname='$customers'";
     $read = $db_link->query($check);
     $row = mysqli_num_rows($read);
     $getData = mysqli_fetch_array($read);
 
 
-    $getName = $getData['name'];
-    $getFb = $getData['fbname'];
-    $getConcern = $getData['concern'];
-    $getQuestion = $getData['question'];
-    $getNumber = $getData['phone'];
-    $getExtra = $getData['extraphone'];
+    $getName = $getData['fullname'];
+    $username = $getData['username'];
+    $getContact = $getData['contact'];
     $getAddress = $getData['address'];
-    $getNote = $getData['note'];
 
     
     // $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$curDate', '$customers', '$category', '$pName', '$retail', '$qty', '$ta', '$profit', '$tendered', '$change')") or die($db_link->error);
-
-    $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$getName', '$getFb', '$getConcern', '$getQuestion', '$getNumber', '$getExtra', '$getAddress', ' ', ' ', ' ', ' ', '$pName','$qty', ' ', 'Pick Order form', '$getNote', 'NEW')") or die($db_link->error);
+    $db_link->query("INSERT INTO orders (fullname, address, products, quantity, mop, note, status, trackno) VALUES('$getName', '$address', '$pName', '$qty', 'Pick Order Form', '', 'NEW', '')") or die($db_link->error);
     header("Location: sales1.php");
     // // update the data qty regards to date(month) in salesreport
     // $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
@@ -428,6 +418,7 @@ if (isset($_POST['updtStat'])) {
     $gets = $_POST['stats'];
     $curQuants = $_POST['quan'];
     $products = $_POST['prods'];
+    $getOrderno = $_POST['order'];
 
     $checking = "SELECT * FROM products WHERE name='$products'";
     $prompt = $db_link->query($checking);
@@ -438,6 +429,12 @@ if (isset($_POST['updtStat'])) {
     $productName = $getData['name'];
 
     $totsQuants = $proQuants + $curQuants;
+
+    $check = "SELECT * FROM myorders WHERE product='$products' AND quantity='$curQuants' AND orderno='$getOrderno'";
+    $pmpt = $db_link->query($check);
+    $getpmpt = mysqli_fetch_array($pmpt);
+
+    $getIdMyorder = $getpmpt['id'];
 
     if ($gets == ""){
         ?>
@@ -465,6 +462,7 @@ if (isset($_POST['updtStat'])) {
     }else if ($gets == "RETURNED"){
         $db_link->query("DELETE FROM sales WHERE id=$id") or die($db_link->error);
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE myorders SET status='$gets' WHERE id=$getIdMyorder") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totsQuants' WHERE name='$products'") or die($db_link->error);
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -491,6 +489,7 @@ if (isset($_POST['updtStat'])) {
     }
     else{
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE myorders SET status='$gets' WHERE id=$getIdMyorder") or die($db_link->error);
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -525,6 +524,7 @@ if (isset($_POST['updtStatSP'])) {
     $gets = $_POST['stats'];
     $curQuants = $_POST['quan'];
     $products = $_POST['prods'];
+    $getOrderno = $_POST['order'];
 
     $checking = "SELECT * FROM products WHERE name='$products'";
     $prompt = $db_link->query($checking);
@@ -536,6 +536,12 @@ if (isset($_POST['updtStatSP'])) {
 
     $totsQuants = $proQuants + $curQuants;
     
+    $check = "SELECT * FROM myorders WHERE product='$products' AND quantity='$curQuants' AND orderno='$getOrderno'";
+    $pmpt = $db_link->query($check);
+    $getpmpt = mysqli_fetch_array($pmpt);
+
+    $getIdMyorder = $getpmpt['id'];
+
     if ($gets == ""){
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -562,6 +568,7 @@ if (isset($_POST['updtStatSP'])) {
     }else if ($gets == "RETURNED"){
         $db_link->query("DELETE FROM sales WHERE id=$id") or die($db_link->error);
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE myorders SET status='$gets' WHERE id=$getIdMyorder") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totsQuants' WHERE name='$products'") or die($db_link->error);
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -587,6 +594,7 @@ if (isset($_POST['updtStatSP'])) {
         <?php
     }else{
         $db_link->query("UPDATE orders SET status='$gets' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE myorders SET status='$gets' WHERE id=$getIdMyorder") or die($db_link->error);
         ?>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -716,7 +724,7 @@ if (isset($_POST['addTrackno'])) {
     $trackingno = $_POST['trackno'];
     $dateNow = $_POST['curDate'];
     $customers = $_POST['customer'];
-
+    $getOrderno = $_POST['order'];
 
     $checking1 = "SELECT * FROM products WHERE name='$products'";
     $prompt1 = $db_link->query($checking1);
@@ -733,8 +741,15 @@ if (isset($_POST['addTrackno'])) {
 
     $getProfit = $quantsNow * $retails;
 
+    $check = "SELECT * FROM myorders WHERE product='$products' AND quantity='$quantsNow' AND orderno='$getOrderno'";
+    $pmpt = $db_link->query($check);
+    $getpmpt = mysqli_fetch_array($pmpt);
+
+    $getIdMyorder = $getpmpt['id'];
+
     if ($status == "SHIPPED"){
         $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE myorders SET trackno='$trackingno' WHERE id=$getIdMyorder") or die($db_link->error);
         $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$dateNow', '$customers', '$categories', '$productName', '$retails', '$quantsNow', '$getProfit', '$getProfit', '0', '0')") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE name='$productName'") or die($db_link->error);
 
@@ -827,7 +842,7 @@ if (isset($_POST['addTracknoSP'])) {
     $trackingno = $_POST['trackno'];
     $dateNow = $_POST['curDate'];
     $customers = $_POST['customer'];
-
+    $getOrderno = $_POST['order'];
 
     $checking1 = "SELECT * FROM products WHERE name='$products'";
     $prompt1 = $db_link->query($checking1);
@@ -844,8 +859,15 @@ if (isset($_POST['addTracknoSP'])) {
 
     $getProfit = $quantsNow * $retails;
 
+    $check = "SELECT * FROM myorders WHERE product='$products' AND quantity='$quantsNow' AND orderno='$getOrderno'";
+    $pmpt = $db_link->query($check);
+    $getpmpt = mysqli_fetch_array($pmpt);
+
+    $getIdMyorder = $getpmpt['id'];
+
     if ($status == "SHIPPED"){
         $db_link->query("UPDATE orders SET trackno='$trackingno' WHERE id=$id") or die($db_link->error);
+        $db_link->query("UPDATE myorders SET trackno='$trackingno' WHERE id=$getIdMyorder") or die($db_link->error);
         $db_link->query("INSERT INTO sales (dates, customers, category, name, amnt, quantity, total, profit, tendered, changed) VALUES('$dateNow', '$customers', '$categories', '$productName', '$retails', '$quantsNow', '$getProfit', '$getProfit', '0', '0')") or die($db_link->error);
         $db_link->query("UPDATE products SET quantity='$totalQuants' WHERE name='$productName'") or die($db_link->error);
 
@@ -1074,6 +1096,7 @@ if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
     $totals = $_POST['total'];
     $address = $_POST['address'];
     $mop = $_POST['mop'];
+    $orderNo = rand(000,999);
 
     $getItems = $_SESSION["cart_item"];
     $username = $_SESSION['name'];
@@ -1085,7 +1108,7 @@ if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
         $getData = mysqli_fetch_array($read);
 
         if ($row == 1){
-            echo('Meron na nyan sa db');
+            // echo('Meron na nyan sa db');
         }else{
             $db_link->query("INSERT INTO customers (fullname, username, email, contact, address) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$username','$emails', '$contacts', ' $address')") or die($db_link->error);
         }
@@ -1103,15 +1126,41 @@ if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
     
             $getTotal = $quantsProduct - $getQuants;
     
-            echo $getTotal;
-    
+            $_SESSION['firstname'] = $firstname;
+            $_SESSION['middlename'] = $middlename;
+            $_SESSION['lastname'] = $lastname;
+            $_SESSION['email'] = $emails;
+            $_SESSION['contact'] = $contacts;
+            $_SESSION['mop'] = $mop;
+            $_SESSION['total'] = $totals;
+
+            $db_link->query("INSERT INTO myorders (firstname, middlename, lastname, username, email, contact, product, quantity, address, mop, total, dates, status, trackno, orderno) VALUES('$firstname', '$middlename', '$lastname', '$username', '$emails', '$contacts', '$getName', '$getQuants', '$address', '$mop', '$totals', '$date', 'NEW', '', '$orderNo')") or die($db_link->error);
+            $db_link->query("INSERT INTO orders (fullname, address, products, quantity, mop, note, status, trackno, ordersno) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$address', '$getName', '$getQuants', '$mop', '', 'NEW', '', '$orderNo')") or die($db_link->error);
+            include 'customer_email.php';
+            ?>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function(){
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Successfully Placed Your Order',
+                    text: 'We sent an email for your confirmation of order. ',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Okay'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "success.php?action=empty";
+                        }else{
+                            window.location.href = "success.php?action=empty";
+                        }
+                    })
+                    
+                })
         
-            $db_link->query("INSERT INTO myorders (firstname, middlename, lastname, username, email, contact, product, quantity, address, mop, total, dates, status) VALUES('$firstname', '$middlename', '$lastname', '$username', '$emails', '$contacts', '$getName', '$getQuants', '$address', '$mop', '$totals', '$date', 'NEW')") or die($db_link->error);
-            $db_link->query("INSERT INTO orders (fullname, address, products, quantity, mop, note, status, trackno) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$address', '$getName', '$getQuants', '$mop', '', 'NEW', '')") or die($db_link->error);
+            </script>
+            <?php
         }
-        // echo "<script>alert('Successfully Submitted your Order')</script>";
-        // header("Location: form.php");
-        // include 'customer_email.php';
     }
     else{
         $check = "SELECT * FROM customers WHERE username='$username'";
@@ -1120,12 +1169,12 @@ if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
         $getData = mysqli_fetch_array($read);
 
         if ($row == 1){
-            echo('Meron na nyan sa db');
+            // echo('Meron na nyan sa db');
         }else{
             $db_link->query("INSERT INTO customers (fullname, username, email, contact, address) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$username','$emails', '$contacts', ' $address')") or die($db_link->error);
         }
 
-        $ig = $_POST['payment'];
+        // $ig = $_POST['payment'];
         // img validation
         $img_name = $_FILES['payment']['name'];
         $img_size = $_FILES['payment']['size'];
@@ -1140,12 +1189,55 @@ if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
             $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
             $img_upload_path = 'screenshots/' . $new_img_name;
             move_uploaded_file($tmp_name, $img_upload_path);
-            // $db_link->query("INSERT INTO customers (name, fbname, concern, question, phone, extraphone, address, note) VALUES('$name','$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$noteforDelivery')") or die($db_link->error);
-            // $db_link->query("INSERT INTO orders (name, fbname, concern, question, phone, extraphone, address, landmark, province, city, barangay, products, bottles, receivecall, mop, note, status) VALUES('$name', '$fbname', '$concern', '$question', '$number', '$extranumber', '$address', '$landmark', '$province', '$city', '$barangay', '$product','$bottles', '$receivecall', '$mop $new_img_name', '$noteforDelivery', 'NEW')") or die($db_link->error);
-            // echo "<script>alert('Successfully Submitted your Order')</script>";
-            // header("Location: form.php");
-            // include 'customer_email.php';
-            echo('May na upload dito lods');
+                foreach ($getItems as $item) {
+                    $getName = $item['name'];
+                    $getQuants = $item['quantity'];
+            
+                    $login="SELECT * FROM products WHERE name='$getName'";
+                    $prompt = $db_link->query($login);
+                    $getData = mysqli_fetch_array($prompt);
+                
+                    $productName = $getData['name'];
+                    $quantsProduct = $getData['quantity'];
+            
+                    $getTotal = $quantsProduct - $getQuants;
+            
+                    $_SESSION['firstname'] = $firstname;
+                    $_SESSION['middlename'] = $middlename;
+                    $_SESSION['lastname'] = $lastname;
+                    $_SESSION['email'] = $emails;
+                    $_SESSION['contact'] = $contacts;
+                    $_SESSION['mop'] = $mop;
+                    $_SESSION['total'] = $totals;
+        
+                    $db_link->query("INSERT INTO myorders (firstname, middlename, lastname, username, email, contact, product, quantity, address, mop, total, dates, status, trackno, orderno) VALUES('$firstname', '$middlename', '$lastname', '$username', '$emails', '$contacts', '$getName', '$getQuants', '$address', '$mop', '$totals', '$date', 'NEW', '', '$orderNo')") or die($db_link->error);
+                    $db_link->query("INSERT INTO orders (fullname, address, products, quantity, mop, note, status, trackno, ordersno) VALUES('$firstname' ' ' '$middlename' ' ' '$lastname', '$address', '$getName', '$getQuants', '$mop $new_img_name', '', 'NEW', '', '$orderNo')") or die($db_link->error);
+                    include 'customer_email.php';
+                    ?>
+                    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                    <script>
+                        $(document).ready(function(){
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Successfully Placed Your Order',
+                            text: 'We sent an email for your confirmation of order. ',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Okay'
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "success.php?action=empty";
+                                }else{
+                                    window.location.href = "success.php?action=empty";
+                                }
+                            })
+                            
+                        })
+                
+                    </script>
+                    <?php
+                }
+            
         }
     }
     

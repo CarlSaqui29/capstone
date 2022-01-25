@@ -96,13 +96,13 @@
      <p>Search for names, prices, category, supplier and etc.</p>
     </div>
    </div>
-   <!-- <button type="button" class="btn btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Customer <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button> -->
+   <button type="button" class="btn btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Customer <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
    <button type="button" class="btn btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#adduserModal">Add Users <i class='bx bx-plus nav_icon' style="transform: translateY(3px);"></i></button>
    <button type="button" class="btn btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#viewuserModal">View Users <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
   </div>
  </div>
 
- <!-- Modal
+ <!-- Modal -->
  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
    <div class="modal-content">
@@ -138,7 +138,7 @@
     </div>
    </div>
   </div>
- </div> -->
+ </div>
 
 
 

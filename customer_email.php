@@ -7,7 +7,7 @@
 
     $mail = new PHPMailer;
 
-    $email = $emailCustomer;
+    $email = $emails;
     $names = "Order Confirmation";
 
     //SMTP Settings
@@ -24,16 +24,16 @@
     //Email Settings
     $mail->isHTML(true);
     $mail->setFrom($email, $names);
-    $mail->addAddress($emailCustomer);
+    $mail->addAddress($emails);
     $mail->Subject = "Order Details";
-    $mail->Body = 'Good day,'. " ". $name.".". " " .'We would like to inform you that you have successfully order our product'. " ". $product . ".". 
-    " ". "With a quantity of ". " ".  $bottles." ". "product/s.". " ". "Mode of payment is". " ". $mop. "."." ". "Thank you have nice day.";
+    $mail->Body = 'Good day,'. " ". $firstname.".". " " .'We would like to inform you that you have successfully order our product'. " ". $getName . ".". 
+    " ". "With a quantity of ". " ".  $getQuants." ". "product/s.". " ". "Mode of payment is". " ". $mop. "."." ". "Thank you have nice day.";
 
 
     if ($mail->send())
         echo "Mail Sent";
 
     else
-        echo('Error sending the email');
+        // echo('Error sending the email');
 
 ?>
