@@ -95,6 +95,7 @@ if (isset($_POST['checkout'])) {
                 <br>
                 <h4>Product/s to be ordered: <?php foreach ($getItems as $item) { echo $item['name']; } ?></h4>
                 <h4>Total Payment: P<?php echo $getTotal; ?></h4>
+                
             </div>
           <br>
               <div class="text-center">

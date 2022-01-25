@@ -74,7 +74,6 @@
               <th scope="col">Quantity</th>
               <th scope="col">MOP</th>
               <th scope="col">IMAGE</th>
-              <th scope="col">Note</th>
               <th scope="col">Status</th>
               <th scopr="col">Tracking Number</th>
               <th scope="col">Edit Status</th>
@@ -99,9 +98,9 @@
                 $getStr = explode(" ", $str)[2];
                 ?>
                 <td><a href="#" class="pop"><img src="screenshots/<?= $getStr ?>" alt=""></a></td>
-                <td><?php echo $row['note']; ?></td>
                 <form action="functions.php" method="POST">
                   <input type="hidden" name="order" value="<?php echo $row['ordersno']; ?>">
+                  <input type="hidden" name="mode" value="<?php echo $row['mop']; ?>">
                   <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                   <input type="hidden" name="quan" value="<?php echo $row['quantity']; ?>">
                   <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">
@@ -135,6 +134,7 @@
                     <form action="functions.php" method="POST">
                       <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                       <input type="hidden" name="order" value="<?php echo $row['ordersno']; ?>">
+                      <input type="hidden" name="mode" value="<?php echo $row['mop']; ?>">
                       <input type="hidden" name="curDate" value="<?php echo $date->format('Y/m/d'); ?>">
                       <input type="hidden" name="customer" value="<?php echo $row['fullname']; ?>">
                       <input type="hidden" name="prods" value="<?php echo $row['products']; ?>">

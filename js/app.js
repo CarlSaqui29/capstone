@@ -239,7 +239,7 @@ function getItems(val) {
   tr_ = table_.getElementsByTagName("tr");
 
   for (i = 0; i < tr_.length; i++) {
-    td0_ = tr_[i].getElementsByTagName("td")[7];
+    td0_ = tr_[i].getElementsByTagName("td")[5];
     if (td0_) {
       txtVal0_ = td0_.textContent || td0_.innerText;
       if (txtVal0_.toUpperCase().indexOf(filter_) > -1) {

@@ -30,7 +30,7 @@
      <a href="orders.php" class="nav_link"><i class='bx bxs-package nav_icon'></i> <span class="nav_name">Orders</span> </a>
     </div>
    </div>
-   <a href="login.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+   <a href="index.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
   </nav>
  </div>
  <!--Container Main start-->
@@ -62,7 +62,7 @@
     <table class="table mt-4 table-hover" id="myTable">
      <thead class="table-dark">
       <tr>
-       <th scope="col">Fullname</th>
+       <th scope="col">Name</th>
        <th scope="col">Username</th>
        <th scope="col">Email</th>
        <th scope="col">Contact</th>
@@ -85,8 +85,8 @@
         <td><?php echo $row['address']; ?></td>
         <td><a type="button" class="btn btn-sm btn-danger" href="functions.php?deleteCustomer=<?php echo $row["id"] ?>">Delete</a></td>
        </tr>
-      <?php }; ?>
      </tbody>
+     <?php }; ?>
     </table>
    </div>
    <div class="no-result-div mt-4 text-center" id="no-search">
@@ -96,14 +96,15 @@
      <p>Search for names, prices, category, supplier and etc.</p>
     </div>
    </div>
-   <button type="button" class="btn btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Customer <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
+   <button type="button" class="btn btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addCustomer">Add Customer <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
    <button type="button" class="btn btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#adduserModal">Add Users <i class='bx bx-plus nav_icon' style="transform: translateY(3px);"></i></button>
-   <button type="button" class="btn btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#viewuserModal">View Users <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button>
+   <!-- <button type="button" class="btn btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#viewUsers">View Users <i class='bx bx-user nav_icon' style="transform: translateY(3px);"></i></button> -->
   </div>
  </div>
 
+
  <!-- Modal -->
- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
    <div class="modal-content">
     <div class="modal-header">
@@ -115,19 +116,15 @@
       <div class="row">
        <div class="col-md-12 mt-2">
         <label for="customerName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="cName" name="customerName" placeholder="..." required>
+        <input type="text" class="form-control" id="cName" name="customerName" placeholder="Enter Name" required>
        </div>
        <div class="col-md-12 mt-2">
         <label for="customerContact" class="form-label">Contact</label>
-        <input type="text" class="form-control" id="cC" name="customerContact" placeholder="..." required>
+        <input type="text" class="form-control" id="cC" name="customerContact" placeholder="Enter Contact" required>
        </div>
        <div class="col-md-12 mt-2">
         <label for="customerAddress" class="form-label">Address</label>
-        <input type="text" class="form-control" id="cAddress" name="customerAddress" placeholder="..." required>
-       </div>
-       <div class="col-md-12 mt-2">
-        <label for="customerNote" class="form-label">Note</label>
-        <textarea class="form-control" id="cNote" placeholder="Leave a Note here" name="customerNote" style="height: 100px" required></textarea>
+        <input type="text" class="form-control" id="cAddress" name="customerAddress" placeholder="Enter Address" required>
        </div>
        <div class="col-md-12 mt-4 mb-2" style="text-align: right;">
         <button class="btn btn-primary" type="submit" name="addCustomer">Add Customer</button>
@@ -139,8 +136,6 @@
    </div>
   </div>
  </div>
-
-
 
  <!--Modal Add User-->
  <div class="modal fade" id="adduserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -154,7 +149,7 @@
           <form action="functions.php" method="POST">
             <div class="mb-3 mt-3">
               <label for="formGroupExampleInput" class="form-label">Username</label>
-              <input type="text" id="user" name="username" class="form-control" placeholder="Enter Username" required>
+              <input type="text" name="username" class="form-control" placeholder="Enter Username" required>
             </div>
             <div class="mb-3 mt-3">
               <label for="formGroupExampleInput2" class="form-label">Access</label>
@@ -181,43 +176,6 @@
   </div>
 
 
-
-  <!--Modal View User-->
- <div class="modal fade" id="viewuserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Users</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="tableData overflow-auto">
-                <table class="table mt-4 table-hover" id="myTable">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Username</th>
-                            <th scope="col">Access</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    require('config.php');
-                    $query = "SELECT * FROM users";
-                    $result = mysqli_query($db_link, $query);
-                    while ($row = mysqli_fetch_array($result)) {
-                    ?>
-                    <tr>
-                        <td><?php echo $row['username']; ?></td>
-                        <td><?php echo $row['access']; ?></td>
-                    </tr>
-            <?php }; ?>
-            </tbody>
-            </table>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
