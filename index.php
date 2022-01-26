@@ -35,6 +35,8 @@
           </div>
           <div class="col-12">
             <button type="submit" class="btn btn btn-warning mt-2" style="width: 100%;" name="signin">Sign in</button>
+            <br><br>
+            <a type="button" data-bs-toggle="modal" data-bs-target="#forgotPassword" style="color: #4169E1;">Forgot password?</a>
           </div>
         </form>
         <div class="mt-3">
@@ -94,6 +96,30 @@
             </div>
             <div class="col-12">
               <button type="submit" class="btn btn btn-warning mt-2" style="width: 100%;" name="register">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!--Modal Forgot Password-->
+ <div class="modal fade" id="forgotPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Forgot Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="functions.php" method="POST">
+            <div class="mb-3 mt-3">
+              <label for="formGroupExampleInput1" class="form-label">Email</label>
+              <input type="email" id="email" name="emails" class="form-control" placeholder="Enter Email" required>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn btn-warning mt-2" style="width: 100%;" name="forgot">Send</button>
             </div>
           </form>
         </div>

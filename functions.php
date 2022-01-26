@@ -1119,8 +1119,8 @@ if (isset($_POST['otplogin'])) {
     $row = mysqli_num_rows($prompt);
     $getData = mysqli_fetch_array($prompt);
 
-    $getName = $getData['username'];
     if ($row == 1){
+        $getName = $getData['username'];
         $_SESSION['name'] = $getName;
         header('location:product_catalogue.php');
     }else{
@@ -1309,3 +1309,177 @@ if (isset($_POST['checkOrder']) && isset($_FILES['payment'])) {
     
 
 }
+
+
+//FORGOT PASSWORD
+if (isset($_POST['forgot'])) {
+    $emails = $_POST['emails'];
+    $setOTP = rand(0000,9999);
+
+    $check = "SELECT * FROM user_acc WHERE email='$emails'";
+    $read = $db_link->query($check);
+    $row = mysqli_num_rows($read);
+    $getData = mysqli_fetch_array($read);
+
+    if ($row == 1){
+        $getFirstname = $getData['firstname'];
+        $db_link->query("UPDATE user_acc SET otp='$setOTP' WHERE email='$emails'") or die($db_link->error);
+        include 'forgot_email.php';
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'success',
+                title: 'Successfully Submitted your request',
+                text: 'We sent an email for your confirmation of account. ',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "otp1.php";
+                    }else{
+                        window.location.href = "otp1.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }else{
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'error',
+                title: 'Sorry we could not detect your email',
+                text: 'Kindly register an account first',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "index.php";
+                    }else{
+                        window.location.href = "index.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+   
+}
+
+//OTP VERIFICATION FOR FORGOT PASSWORD
+if (isset($_POST['otpForgot'])) {
+    $checkOTP = $_POST['otp'];
+
+    $login="SELECT * FROM user_acc WHERE otp='$checkOTP'";
+    $prompt = $db_link->query($login);
+    $row = mysqli_num_rows($prompt);
+    $getData = mysqli_fetch_array($prompt);
+
+    if ($row == 1){
+        $_SESSION['otp'] = $getData['otp'];
+        header('location:changepass.php');
+    }else{
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'error',
+                title: 'OTP is incorrect! Kindly Check your email for your OTP code.',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "otp1.php";
+                    }else{
+                        window.location.href = "otp1.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+}
+
+
+//CHANGE PASSWORD
+if (isset($_POST['change'])) {
+    $password1 = $_POST['pass1'];
+    $password2 = $_POST['pass2'];
+    $getOtp =  $_SESSION['otp'];
+
+
+    $check = "SELECT * FROM user_acc WHERE otp='$getOtp'";
+    $read = $db_link->query($check);
+    $row = mysqli_num_rows($read);
+
+    $checkpass = "SELECT * FROM user_acc WHERE password='$password1'";
+    $readpass = $db_link->query($checkpass);
+    $rowpass = mysqli_num_rows($read);
+
+    if ($password1 != $password2){
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'error',
+                title: 'Password does not match',
+                text: 'Something went wrong!',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "changepass.php";
+                    }else{
+                        window.location.href = "changepass.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }else{
+        $db_link->query("UPDATE user_acc SET password='$password1' WHERE otp='$getOtp'") or die($db_link->error);
+        ?>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                Swal.fire({
+                icon: 'success',
+                title: 'Successfully Change your password',
+                text: 'Kindly login your credentials now',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Okay'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "index.php";
+                    }else{
+                        window.location.href = "index.php";
+                    }
+                })
+                
+            })
+    
+        </script>
+        <?php
+    }
+}
+

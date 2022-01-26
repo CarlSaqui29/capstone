@@ -19,13 +19,13 @@
         $prompt3 = $db_link->query($login3);
         $row3 = mysqli_num_rows($prompt3);
         $getData = mysqli_fetch_array($prompt3);
-        $getName = $getData['username'];
 
         if ($row1 == 1 ){
             header('location:dashboard.php');
         }elseif($row2 == 1){
             header('location:dashboardsales.php');
         }elseif($row3 == 1){
+            $getName = $getData['username'];
             $_SESSION['name'] = $getName;
             header('location:product_catalogue.php');
         }else{?>
